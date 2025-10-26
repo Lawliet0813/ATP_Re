@@ -1,0 +1,17 @@
+package ui;
+
+import com.MiTAC.TRA.ATP.ui.pnlLineMgn;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class pnlLineMgn_btnAddLine_actionAdapter implements ActionListener {
+  pnlLineMgn adaptee;
+  
+  pnlLineMgn_btnAddLine_actionAdapter(pnlLineMgn parampnlLineMgn) {
+    this.adaptee = parampnlLineMgn;
+  }
+  
+  public void actionPerformed(ActionEvent paramActionEvent) {
+    this.adaptee.btnAddLine_actionPerformed(paramActionEvent);
+  }
+}
