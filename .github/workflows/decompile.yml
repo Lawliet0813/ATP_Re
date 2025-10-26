@@ -22,41 +22,17 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Create scripts dir and add decompiler script
+      - name: Ensure decompile script exists and is executable
         run: |
           mkdir -p .github/scripts
-          cat > .github/scripts/decompile-all.sh <<'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-CFR_JAR=cfr.jar
-CFR_URL="https://www.benf.org/other/cfr/cfr.jar"
-if [ ! -f "$CFR_JAR" ]; then
-  echo "Downloading CFR decompiler..."
-  curl -sSfL -o "$CFR_JAR" "$CFR_URL"
-fi
-OUTDIR="decompiled"
-mkdir -p "$OUTDIR"
-echo "Decompiling jar files..."
-find . -type f -name '*.jar' -print0 | while IFS= read -r -d '' J; do
-  safe=$(echo "$J" | sed 's#^\./##; s#[/ ]#_#g')
-  target="$OUTDIR/jar_$safe"
-  mkdir -p "$target"
-  java -jar "$CFR_JAR" --outputdir "$target" "$J"
-done
-echo "Decompiling individual .class files..."
-find . -type f -name '*.class' -print0 | while IFS= read -r -d '' C; do
-  rel=$(realpath --relative-to="." "$C" 2>/dev/null || printf "%s" "$C")
-  outdir="$OUTDIR/classes/$(dirname "$rel")"
-  mkdir -p "$outdir"
-  java -jar "$CFR_JAR" --outputdir "$outdir" "$C"
-done
-echo "Decompilation finished. Results in ./$OUTDIR"
-EOF
+          if [ ! -f .github/scripts/decompile-all.sh ]; then
+            echo "Error: .github/scripts/decompile-all.sh not found in the repository. Please add the script to the decompile-workflow branch."
+            exit 1
+          fi
           chmod +x .github/scripts/decompile-all.sh
 
       - name: Run decompiler
-        run: |
-          .github/scripts/decompile-all.sh
+        run: .github/scripts/decompile-all.sh
 
       - name: Commit decompiled sources to branch and open PR
         uses: peter-evans/create-pull-request@v5
