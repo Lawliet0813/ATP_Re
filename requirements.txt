@@ -1,0 +1,13 @@
+# ATP_Re - Python Requirements
+# Database
+psycopg2-binary>=2.9.9
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.21.0
+
+# Development
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
