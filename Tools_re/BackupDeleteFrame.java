@@ -7,7 +7,7 @@ import com.MiTAC.TRA.ATP.Tools.PasswordInputDialog;
 import com.MiTAC.TRA.ATP.Tools.PathHandler;
 import com.MiTAC.TRA.ATP.Tools.SortTable.JSortTable;
 import com.MiTAC.TRA.ATP.Tools.SortTable.SortTableModel;
-import com.MiTAC.TRA.ATP.ui.frmMain;
+import com.MiTAC.TRA.ATP.ui.frames.frmMain;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;

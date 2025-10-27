@@ -5,7 +5,7 @@ import com.MiTAC.TRA.ATP.Tools.CheckUser;
 import com.MiTAC.TRA.ATP.Tools.PasswordInputDialog_btnCancel_actionAdapter;
 import com.MiTAC.TRA.ATP.Tools.PasswordInputDialog_btnCommit_actionAdapter;
 import com.MiTAC.TRA.ATP.Tools.PasswordInputDialog_jPasswordField1_actionAdapter;
-import com.MiTAC.TRA.ATP.ui.frmMain;
+import com.MiTAC.TRA.ATP.ui.frames.frmMain;
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
 import java.awt.Component;
