@@ -6,7 +6,7 @@ package com.MiTAC.TRA.ATP.decode;
 
 import java.awt.event.WindowEvent;
 import java.awt.Component;
-import com.MiTAC.TRA.ATP.ui.pnlViewCode;
+import com.MiTAC.TRA.ATP.ui.panels.pnlViewCode;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.BorderLayout;

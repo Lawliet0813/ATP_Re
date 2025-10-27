@@ -1,6 +1,6 @@
 package decode;
 
-import com.MiTAC.TRA.ATP.ui.pnlViewCode;
+import com.MiTAC.TRA.ATP.ui.panels.pnlViewCode;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
