@@ -27,6 +27,28 @@ ENV/
 .venv
 
 # IDE
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
 .vscode/
 .idea/
 *.swp
@@ -60,3 +82,31 @@ htmlcov/
 
 # Streamlit
 .streamlit/
+.DS_Store
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Java (existing)
+*.class
+*.jar
+*.war
+*.ear
+
+# Package files
+*.tar.gz
+*.zip
