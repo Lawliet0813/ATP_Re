@@ -9,99 +9,99 @@ import com.MiTAC.TRA.ATP.decode.MMIVariables;
 import java.util.Vector;
 
 public class Decoder {
-  private Vector _$25801;
+  private Vector allPackets;
   
-  private Vector _$25799;
+  private Vector atpPackets;
   
-  private Vector _$25800;
+  private Vector errorPackets;
   
-  private Vector _$25802;
+  private Vector btmPackets;
   
-  private Vector _$22268;
+  private Vector logDriverData;
   
-  private Vector _$22275;
+  private Vector logDriverMessage;
   
-  private Vector _$22272;
+  private Vector logDynamic;
   
-  private Vector _$22274;
+  private Vector logFailure;
   
-  private Vector _$22273;
+  private Vector logStatus;
   
-  private Vector _$22271;
+  private Vector logTS;
   
-  private Vector _$22269;
+  private Vector logTrainData;
   
-  private Vector _$25798;
+  private Vector tsPackets;
   
-  private DecodeATP _$25797 = new DecodeATP();
+  private DecodeATP atpDecoder = new DecodeATP();
   
-  private int _$4027 = 0;
+  private int currentPosition = 0;
   
   public Decoder(String paramString) throws Exception {
     setPath(paramString);
   }
   
   public Vector getATP() {
-    return this._$25799;
+    return this.atpPackets;
   }
   
   public Vector getAll() {
-    return this._$25801;
+    return this.allPackets;
   }
   
   public Vector getErr() {
-    return this._$25800;
+    return this.errorPackets;
   }
   
   public Vector getLogDriverData() {
-    return this._$22268;
+    return this.logDriverData;
   }
   
   public Vector getLogDriverMessage() {
-    return this._$22275;
+    return this.logDriverMessage;
   }
   
   public Vector getLogDynamic() {
-    return this._$22272;
+    return this.logDynamic;
   }
   
   public Vector getLogFailure() {
-    return this._$22274;
+    return this.logFailure;
   }
   
   public Vector getLogStatus() {
-    return this._$22273;
+    return this.logStatus;
   }
   
   public Vector getLogTS() {
-    return this._$22271;
+    return this.logTS;
   }
   
   public Vector getLogTrainData() {
-    return this._$22269;
+    return this.logTrainData;
   }
   
   public Vector getTS() {
-    return this._$25798;
+    return this.tsPackets;
   }
   
   public void setPath(String paramString) throws Exception {
-    this._$25798 = new Vector();
-    this._$25799 = new Vector();
-    this._$25800 = new Vector();
-    this._$25801 = new Vector();
-    this._$22268 = new Vector();
-    this._$22269 = new Vector();
-    this._$22271 = new Vector();
-    this._$22272 = new Vector();
-    this._$22273 = new Vector();
-    this._$22274 = new Vector();
-    this._$22275 = new Vector();
-    this._$25802 = new Vector();
+    this.tsPackets = new Vector();
+    this.atpPackets = new Vector();
+    this.errorPackets = new Vector();
+    this.allPackets = new Vector();
+    this.logDriverData = new Vector();
+    this.logTrainData = new Vector();
+    this.logTS = new Vector();
+    this.logDynamic = new Vector();
+    this.logStatus = new Vector();
+    this.logFailure = new Vector();
+    this.logDriverMessage = new Vector();
+    this.btmPackets = new Vector();
     FileRead fileRead = new FileRead(paramString);
     byte[] arrayOfByte = fileRead.getCodes();
     Vector vector = new Vector();
-    while (this._$4027 <= arrayOfByte.length - 1) {
+    while (this.currentPosition <= arrayOfByte.length - 1) {
       Vector vector1;
       Vector vector2;
       Vector vector3;
@@ -112,52 +112,52 @@ public class Decoder {
       int j;
       int k;
       int i = 0;
-      byte[] arrayOfByte1 = fileRead.getCodes(this._$4027 + 1, 14);
+      byte[] arrayOfByte1 = fileRead.getCodes(this.currentPosition + 1, 14);
       String str2 = DecodeTS.getTS(arrayOfByte1).get(0);
       Integer integer1 = DecodeTS.getTS(arrayOfByte1).get(1);
       Integer integer2 = DecodeTS.getTS(arrayOfByte1).get(2);
-      this._$22271.add(DecodeTS.getTS(arrayOfByte1));
+      this.logTS.add(DecodeTS.getTS(arrayOfByte1));
       char c = Character.MIN_VALUE;
       String str1 = "";
       vector = null;
-      byte[] arrayOfByte2 = new byte[Byte2Number.getUnsigned(arrayOfByte[this._$4027 + 15])];
-      arrayOfByte2 = fileRead.getCodes(this._$4027 + 15, Byte2Number.getUnsigned(arrayOfByte[this._$4027 + 15]) + 1);
-      switch (Byte2Number.getUnsigned(arrayOfByte[this._$4027])) {
+      byte[] arrayOfByte2 = new byte[Byte2Number.getUnsigned(arrayOfByte[this.currentPosition + 15])];
+      arrayOfByte2 = fileRead.getCodes(this.currentPosition + 15, Byte2Number.getUnsigned(arrayOfByte[this.currentPosition + 15]) + 1);
+      switch (Byte2Number.getUnsigned(arrayOfByte[this.currentPosition])) {
         case 1:
         case 4:
-          this._$25797.setData(arrayOfByte2);
-          vector1 = this._$25797.getLogDynamic();
+          this.atpDecoder.setData(arrayOfByte2);
+          vector1 = this.atpDecoder.getLogDynamic();
           if (vector1.size() != 0) {
             vector1.insertElementAt(str2, 0);
-            this._$22272.add(vector1);
+            this.logDynamic.add(vector1);
           } 
-          vector2 = this._$25797.getLogStatus();
+          vector2 = this.atpDecoder.getLogStatus();
           if (vector2.size() != 0) {
             vector2.insertElementAt(str2, 0);
-            this._$22273.add(vector2);
+            this.logStatus.add(vector2);
           } 
-          vector3 = this._$25797.getLogDriver();
+          vector3 = this.atpDecoder.getLogDriver();
           if (vector3.size() != 0) {
             vector3.insertElementAt(str2, 0);
-            this._$22268.add(vector3);
+            this.logDriverData.add(vector3);
           } 
-          vector4 = this._$25797.getLogTrainData();
+          vector4 = this.atpDecoder.getLogTrainData();
           if (vector4.size() != 0) {
             vector4.insertElementAt(str2, 0);
-            this._$22269.add(vector4);
+            this.logTrainData.add(vector4);
           } 
-          vector5 = this._$25797.getLogFailure();
+          vector5 = this.atpDecoder.getLogFailure();
           if (vector5.size() != 0) {
             vector5.insertElementAt(str2, 0);
-            this._$22274.add(vector5);
+            this.logFailure.add(vector5);
           } 
-          vector6 = this._$25797.getLogDriverMessage();
+          vector6 = this.atpDecoder.getLogDriverMessage();
           if (vector6.size() != 0) {
             vector6.insertElementAt(str2, 0);
-            this._$22275.add(vector6);
+            this.logDriverMessage.add(vector6);
           } 
-          str1 = "" + this._$25797.getData();
-          vector = this._$25799;
+          str1 = "" + this.atpDecoder.getData();
+          vector = this.atpPackets;
           break;
         case 21:
           c = 'ʂ';
@@ -280,12 +280,12 @@ public class Decoder {
         case 201:
           str1 = "ATP DOWN: ";
           vector7 = new Vector();
-          j = MMIVariables.MMI_O_TRAIN(arrayOfByte[this._$4027 + 16], arrayOfByte[this._$4027 + 17], arrayOfByte[this._$4027 + 18], arrayOfByte[this._$4027 + 19]);
-          k = MMIVariables.MMI_V_TRAIN(arrayOfByte[this._$4027 + 22], arrayOfByte[this._$4027 + 23]);
+          j = MMIVariables.MMI_O_TRAIN(arrayOfByte[this.currentPosition + 16], arrayOfByte[this.currentPosition + 17], arrayOfByte[this.currentPosition + 18], arrayOfByte[this.currentPosition + 19]);
+          k = MMIVariables.MMI_V_TRAIN(arrayOfByte[this.currentPosition + 22], arrayOfByte[this.currentPosition + 23]);
           vector7.add(str2);
           vector7.add(new Integer(k));
           vector7.add(new Integer(j));
-          this._$22271.add(vector7);
+          this.logTS.add(vector7);
         case 211:
           str1 = "PERIODIC_SPEED_DISTANCE";
           break;
@@ -293,27 +293,27 @@ public class Decoder {
           str1 = "MVB LOG TYPE BUTTON EVENT: ";
           break;
         default:
-          str1 = "no handle Record Type:" + Byte2Number.getUnsigned(arrayOfByte[this._$4027]) + " at " + this._$4027 + " ";
-          vector = this._$25800;
+          str1 = "no handle Record Type:" + Byte2Number.getUnsigned(arrayOfByte[this.currentPosition]) + " at " + this.currentPosition + " ";
+          vector = this.errorPackets;
           break;
       } 
       Vector vector8 = new Vector();
-      vector8.add(new Integer(this._$4027));
+      vector8.add(new Integer(this.currentPosition));
       vector8.add(str2);
       vector8.add(integer1);
       vector8.add(integer2);
       vector8.add(new Integer(c));
-      vector8.add(new Integer(Byte2Number.getUnsigned(arrayOfByte[this._$4027])));
-      vector8.add(new Integer(Byte2Number.getUnsigned(arrayOfByte[this._$4027 + 15])));
+      vector8.add(new Integer(Byte2Number.getUnsigned(arrayOfByte[this.currentPosition])));
+      vector8.add(new Integer(Byte2Number.getUnsigned(arrayOfByte[this.currentPosition + 15])));
       vector8.add(HexCode.getHexA_String(arrayOfByte2));
       vector8.add(str1);
       if (vector != null)
         vector.add(vector8); 
-      this._$25801.add(vector8);
-      this._$4027 += 15;
-      i = Byte2Number.getUnsigned(arrayOfByte[this._$4027]);
-      this._$4027 += i;
-      this._$4027++;
+      this.allPackets.add(vector8);
+      this.currentPosition += 15;
+      i = Byte2Number.getUnsigned(arrayOfByte[this.currentPosition]);
+      this.currentPosition += i;
+      this.currentPosition++;
     } 
   }
 }
