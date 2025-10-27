@@ -1,0 +1,130 @@
+graph TD
+    Start[用戶選擇檔案] --> FileType{檔案類型}
+    
+    FileType -->|RU檔案| RUFile[RU二進位檔案]
+    FileType -->|MMI檔案| MMIFile[MMI二進位檔案]
+    
+    RUFile --> DecodeBuffer[DecodeBuffer<br/>任務佇列管理<br/>4096任務緩衝]
+    MMIFile --> DecodeBuffer
+    
+    DecodeBuffer --> DBCheck{資料庫檢查<br/>資料是否存在?}
+    
+    DBCheck -->|資料已存在| Decide{處理策略}
+    Decide -->|RU檔案| Delete[刪除舊資料] --> DataFeeder
+    Decide -->|MMI檔案| Merge[檢查是否合併] --> DataFeeder
+    
+    DBCheck -->|資料不存在| DataFeeder[DataFeeder<br/>資料供給引擎]
+    
+    DataFeeder --> FileRead[FileRead<br/>讀取二進位檔案<br/>byte陣列]
+    
+    FileRead --> RUDecoder[RUDecoder<br/>解析15 byte標頭<br/>時間/速度/位置]
+    
+    RUDecoder --> HeadDecoder[HeadDecoder<br/>解析封包標頭]
+    
+    HeadDecoder --> PacketType{封包類型判斷}
+    
+    %% ATP封包分支
+    PacketType -->|ATP/MMI封包| ATPDecoder[ATPDecoder<br/>decode_re層]
+    ATPDecoder --> PacketMMI[PacketMMI<br/>40+種封包類型<br/>MMI_DYNAMIC等]
+    PacketMMI --> MMIVariables[MMIVariables<br/>變數轉換<br/>位元組→數值]
+    
+    MMIVariables --> LogCollector[LogDataCollector<br/>資料分類收集]
+    
+    LogCollector --> DriverData[司機員資料<br/>ID/班次/操作]
+    LogCollector --> TrainData[列車資料<br/>編號/車型]
+    LogCollector --> DynamicData[動態資料<br/>速度/位置/加速度]
+    LogCollector --> StatusData[狀態資料<br/>ATP模式/系統狀態]
+    LogCollector --> FailureData[故障資料<br/>類型/時間/位置]
+    LogCollector --> MessageData[司機員訊息<br/>警告/提示]
+    
+    %% BTM封包分支
+    PacketType -->|BTM電報| BTMDecoder[BTMDecoder<br/>decoder_re層<br/>5片段重組機制]
+    BTMDecoder --> BTMBuffer[10個序列槽<br/>每個5片段<br/>每片段25 bytes]
+    BTMBuffer --> BTMComplete{電報完整?}
+    BTMComplete -->|是| WaySide[WaySideTelegramPacketDecoder<br/>路側電報解碼]
+    BTMComplete -->|否| BTMWait[等待更多片段]
+    BTMWait --> BTMDecoder
+    
+    WaySide --> PacketDecoder{ETCS封包類型<br/>19種}
+    PacketDecoder --> P3[P3: Movement Authority<br/>行車權限]
+    PacketDecoder --> P27[P27: Speed Profile<br/>速度限制]
+    PacketDecoder --> P21[P21: Gradient Profile<br/>坡度資訊]
+    PacketDecoder --> P65[P65: Repositioning<br/>位置校正]
+    PacketDecoder --> Others[其他16種封包...]
+    
+    %% VDX封包分支  
+    PacketType -->|VDX數位I/O| VDXDecoder[VDXDecoder<br/>decoder_re層<br/>數位訊號解析]
+    
+    %% 資料整合
+    DriverData --> ATPMission
+    TrainData --> ATPMission
+    DynamicData --> ATPMission
+    StatusData --> ATPMission
+    FailureData --> ATPMission
+    MessageData --> ATPMission
+    P3 --> ATPMission
+    P27 --> ATPMission
+    P21 --> ATPMission
+    P65 --> ATPMission
+    Others --> ATPMission
+    VDXDecoder --> ATPMission
+    
+    ATPMission[ATPMissionGeneral<br/>core_re層<br/>業務物件整合]
+    
+    %% 資料存儲
+    ATPMission --> Statistics[統計計算<br/>EB/SB次數<br/>故障統計]
+    Statistics --> ConnectDB[ConnectDB<br/>connect_re層<br/>寫入資料庫]
+    
+    %% 視覺化分支
+    ATPMission --> DrawGraphics[drawGraphics_re<br/>圖形繪製引擎]
+    
+    DrawGraphics --> DrawMode{繪圖模式}
+    DrawMode -->|時間模式| TimeMode[以時間為X軸]
+    DrawMode -->|距離模式| DistMode[以距離為X軸]
+    
+    TimeMode --> DrawComponents
+    DistMode --> DrawComponents
+    
+    DrawComponents[繪圖組件]
+    
+    DrawComponents --> DrawCurve[DrawCurve<br/>速度曲線<br/>ATP限速/目標速度]
+    DrawComponents --> DrawGradient[DrawGradient<br/>坡度曲線]
+    DrawComponents --> DrawStations[車站標記<br/>停車位置]
+    DrawComponents --> DrawBalise[DrawBaliseInfo<br/>Balise位置]
+    DrawComponents --> DrawEvents[事件標記<br/>EB/SB/故障]
+    DrawComponents --> DrawMessages[DrawDriverMessage<br/>司機員訊息]
+    
+    %% 座標轉換
+    DrawCurve --> CoordTrans[座標轉換系統<br/>資料值→螢幕像素<br/>Y軸反轉處理]
+    DrawGradient --> CoordTrans
+    DrawStations --> CoordTrans
+    DrawBalise --> CoordTrans
+    DrawEvents --> CoordTrans
+    DrawMessages --> CoordTrans
+    
+    CoordTrans --> Canvas[Java Swing Canvas<br/>Graphics2D繪製]
+    
+    Canvas --> Display[顯示最終圖表]
+    
+    %% UI互動
+    Display --> UIInteract{使用者互動}
+    UIInteract -->|縮放| Zoom[重新計算座標<br/>重繪]
+    UIInteract -->|點擊事件| EventDetail[顯示事件詳細資訊]
+    UIInteract -->|切換模式| SwitchMode[時間/距離切換]
+    UIInteract -->|匯出| Export[匯出報表<br/>CSV/Excel/PDF]
+    
+    Zoom --> DrawGraphics
+    SwitchMode --> DrawGraphics
+    
+    style Start fill:#e1f5e1
+    style Display fill:#ffe1e1
+    style DecodeBuffer fill:#fff4e1
+    style DataFeeder fill:#fff4e1
+    style ATPMission fill:#e1f0ff
+    style DrawGraphics fill:#f0e1ff
+    style ConnectDB fill:#ffe1f0
+    
+    style RUDecoder fill:#ffd700
+    style BTMDecoder fill:#ffd700
+    style VDXDecoder fill:#ffd700
+    style ATPDecoder fill:#ffd700
