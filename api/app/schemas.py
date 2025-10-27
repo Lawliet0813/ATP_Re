@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -13,6 +13,8 @@ class TaskCreate(BaseModel):
 
 class TaskResponse(BaseModel):
     """Schema for task response"""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     task_name: str
     task_type: str
@@ -22,9 +24,6 @@ class TaskResponse(BaseModel):
     completed_at: Optional[datetime] = None
     file_path: Optional[str] = None
     description: Optional[str] = None
-    
-    class Config:
-        from_attributes = True
 
 
 class DataQuery(BaseModel):
@@ -39,6 +38,8 @@ class DataQuery(BaseModel):
 
 class DataResponse(BaseModel):
     """Schema for ATP data response"""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     task_id: int
     timestamp: datetime
@@ -47,9 +48,6 @@ class DataResponse(BaseModel):
     data_type: str
     raw_data: Optional[str] = None
     decoded_data: Optional[str] = None
-    
-    class Config:
-        from_attributes = True
 
 
 class EventQuery(BaseModel):
@@ -65,6 +63,8 @@ class EventQuery(BaseModel):
 
 class EventResponse(BaseModel):
     """Schema for event response"""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     task_id: int
     event_type: str
@@ -72,13 +72,12 @@ class EventResponse(BaseModel):
     severity: str
     message: str
     details: Optional[str] = None
-    
-    class Config:
-        from_attributes = True
 
 
 class FileUploadResponse(BaseModel):
     """Schema for file upload response"""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     filename: str
     original_filename: str
@@ -86,9 +85,6 @@ class FileUploadResponse(BaseModel):
     file_type: str
     upload_time: datetime
     status: str
-    
-    class Config:
-        from_attributes = True
 
 
 class ReportRequest(BaseModel):
