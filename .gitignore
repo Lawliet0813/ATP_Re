@@ -111,3 +111,21 @@ temp/
 # Package files
 *.tar.gz
 *.zip
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec.bak
+__pycache__/
+*.pyc
+
+# Standalone build outputs
+*.dmg
+*.exe.manifest
+diagnosis.txt
+atp_re_launcher.log
+
+# Backup files
+*.backup
+*.bak
+dump.sql
