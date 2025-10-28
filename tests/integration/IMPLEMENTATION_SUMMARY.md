@@ -269,5 +269,7 @@ python tests/integration/run_integration_tests.py
 
 **報告產生日期**: 2025-10-28  
 **實施版本**: v1.0  
-**實施者**: Copilot (with Lawliet Chen)  
-**相關議題**: ATP_re Issue #[議題編號]
+**開發團隊**: Lawliet0813/ATP_re Project Team  
+**相關議題**: 
+- 本議題: ATP 行車紀錄分析系統：MMI 與 RU 檔案實測規劃
+- 追蹤議題: #12 (總覽議題)
