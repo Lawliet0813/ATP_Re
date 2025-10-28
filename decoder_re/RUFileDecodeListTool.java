@@ -94,8 +94,13 @@ public class RUFileDecodeListTool {
                 results.add("封包編號：" + packetNo + " (" + getPacketTypeName(packetNo) + ")");
                 
                 // Decode timestamp (bytes 1-6: YY MM DD HH MM SS)
+                // Valid year range: 2000-2099 (YY = 0-99)
                 if (packetHeader.length >= 7) {
-                    int year = 2000 + getUnsignedByte(packetHeader[1]);
+                    int yearByte = getUnsignedByte(packetHeader[1]);
+                    if (yearByte < 0 || yearByte > 99) {
+                        results.add("警告：封包 #" + packetCount + " 年份位元超出範圍 (YY=" + yearByte + ")，僅支援2000-2099年");
+                    }
+                    int year = 2000 + yearByte;
                     int month = getUnsignedByte(packetHeader[2]);
                     int day = getUnsignedByte(packetHeader[3]);
                     int hour = getUnsignedByte(packetHeader[4]);
