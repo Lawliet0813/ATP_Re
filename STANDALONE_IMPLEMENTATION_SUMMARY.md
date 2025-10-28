@@ -587,11 +587,16 @@ hiddenimports=[
 
 ## 📄 授權 (License)
 
-本專案及其文檔採用 [待定義] 授權。
+本專案及其文檔的授權條款待專案擁有者決定。建議採用 MIT License 以保持與依賴套件的相容性並支援商業使用。
 
 詳細授權資訊請參閱:
-- `LICENSE.txt` - 主要授權
-- `STANDALONE_LICENSES.md` - 第三方授權
+- `LICENSE.txt` - 主要授權（待建立）
+- `STANDALONE_LICENSES.md` - 第三方授權（已完成）
+
+**建議授權選項**:
+1. **MIT License** - 最寬鬆，易於理解，商業友好
+2. **Apache License 2.0** - 包含專利授權，適合企業使用
+3. **BSD 3-Clause** - 類似 MIT，稍多限制但仍然寬鬆
 
 ---
 
