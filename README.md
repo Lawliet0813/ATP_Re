@@ -173,3 +173,27 @@ Future stages will include:
 ## Contributors
 
 Lawliet Chen
+
+## 📋 Interactive Charts and Automatic Analysis Planning
+
+This project includes comprehensive planning for interactive train operation charts and automatic analysis features. See the detailed planning documents:
+
+### Planning Documents
+- **[Planning Summary](PLANNING_SUMMARY.md)** - Quick reference and overview
+- **[Main Planning Document](INTERACTIVE_CHART_ANALYSIS_PLANNING.md)** - Comprehensive planning (1241 lines)
+- **[API Specification](API_SPECIFICATION_INTERACTIVE_ANALYSIS.md)** - REST API design (704 lines)
+- **[UI/UX Specification](UI_UX_SPECIFICATION.md)** - Interface design (794 lines)
+- **[Implementation Roadmap](IMPLEMENTATION_ROADMAP.md)** - 11-week development plan (673 lines)
+
+### Key Features Planned
+- ✨ **Interactive Charts**: Zoom, pan, selection, hover tooltips, layer control
+- 🔍 **Anomaly Detection**: Overspeed, harsh braking, speed fluctuations
+- 📈 **Trend Analysis**: Moving averages, linear regression, predictions
+- 📊 **Auto Reports**: One-click PDF/HTML report generation
+- ⚡ **Performance**: < 2s load time, 1000 concurrent users
+
+### Technology Stack
+- **Frontend**: Streamlit + Plotly
+- **Backend**: FastAPI + PostgreSQL + Redis
+- **Analysis**: SciPy, scikit-learn, statsmodels
+
