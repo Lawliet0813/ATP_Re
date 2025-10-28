@@ -123,7 +123,7 @@ public class RUFileDecodeListTool {
                 // Decode speed (bytes 13-14, 2 bytes)
                 if (packetHeader.length >= 15) {
                     int speed = bytesToInt(packetHeader, 13, 2);
-                    results.add("速度：" + speed + " cm/s (" + (speed / 27.778) + " km/h)");
+                    results.add("速度：" + speed + " cm/s (" + (speed * 0.036) + " km/h)");
                 }
                 
                 results.add("資料長度：" + dataLength + " bytes");
