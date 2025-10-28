@@ -25,17 +25,29 @@ echo ""
 
 # 編譯工具
 cd "$(dirname "$0")"
-javac RUFileDecodeListTool.java
-javac MMIFileDecodeListTool.java
 
-if [ $? -eq 0 ]; then
-    echo "✓ 編譯成功"
-    echo "✓ Compilation successful"
+# Compile RU tool
+if javac RUFileDecodeListTool.java 2>&1; then
+    echo "✓ RUFileDecodeListTool 編譯成功"
+    echo "✓ RUFileDecodeListTool compilation successful"
 else
-    echo "✗ 編譯失敗"
-    echo "✗ Compilation failed"
+    echo "✗ RUFileDecodeListTool 編譯失敗"
+    echo "✗ RUFileDecodeListTool compilation failed"
     exit 1
 fi
+
+# Compile MMI tool
+if javac MMIFileDecodeListTool.java 2>&1; then
+    echo "✓ MMIFileDecodeListTool 編譯成功"
+    echo "✓ MMIFileDecodeListTool compilation successful"
+else
+    echo "✗ MMIFileDecodeListTool 編譯失敗"
+    echo "✗ MMIFileDecodeListTool compilation failed"
+    exit 1
+fi
+
+echo "✓ 所有工具編譯成功"
+echo "✓ All tools compiled successfully"
 
 echo ""
 echo "=========================================="
@@ -96,7 +108,7 @@ echo "Demo 3: MMI Directory Mode (Issue Requirement)"
 echo "=========================================="
 echo ""
 
-echo "使用方式（符合 issue 要求：測試區選一個資料夾，內含2個檔案以上）："
+echo "使用方式（符合 issue 要求：測試區選一個資料夾，內含2個以上檔案）："
 echo "Usage (meets issue requirement: select a test folder with 2+ files):"
 echo "  java decoder.MMIFileDecodeListTool <目錄路徑>"
 echo "  java decoder.MMIFileDecodeListTool <directory/path>"
@@ -130,7 +142,7 @@ echo ""
 echo "✓ 列出MMI檔解碼後的數據"
 echo "✓ List decoded data from MMI files"
 echo ""
-echo "✓ MMI檔選擇：測試區選一個資料夾，內含2個檔案以上"
+echo "✓ MMI檔選擇：測試區選一個資料夾，內含2個以上檔案"
 echo "✓ MMI file selection: Choose a test folder with 2+ files"
 echo ""
 echo "詳細說明請參閱：README_DecodeListTools.md"
