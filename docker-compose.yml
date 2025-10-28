@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_DB: ${DB_NAME:-atp_re}
       POSTGRES_USER: ${DB_USER:-atp_user}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_密碼：${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
