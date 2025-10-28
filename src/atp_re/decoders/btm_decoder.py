@@ -24,6 +24,15 @@ class BTMFragment:
     sequence_number: int
     telegram_number: int
     data: bytes
+    
+    def to_dict(self):
+        """Convert to dictionary for display."""
+        return {
+            "sequence_number": self.sequence_number,
+            "telegram_number": self.telegram_number,
+            "data_length": len(self.data),
+            "data_hex": self.data.hex(),
+        }
 
 
 @dataclass
@@ -41,6 +50,16 @@ class BTMTelegram:
     data: bytes
     nid_bg: Optional[int] = None
     m_count: Optional[int] = None
+    
+    def to_dict(self):
+        """Convert to dictionary for display."""
+        return {
+            "sequence_number": self.sequence_number,
+            "data_length": len(self.data),
+            "data_hex": self.data.hex(),
+            "nid_bg": self.nid_bg,
+            "m_count": self.m_count,
+        }
 
 
 class BTMDecoder:

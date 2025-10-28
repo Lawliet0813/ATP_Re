@@ -48,6 +48,32 @@ class RUPacket:
     packet_type: int
     description: str
     data: Any
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """
+        Convert packet to dictionary with all decoded values.
+        
+        Returns:
+            Dictionary containing all packet information including header and decoded data
+        """
+        result = {
+            "packet_type": self.packet_type,
+            "description": self.description,
+            "header": self.header.to_dict(),
+            "data": None
+        }
+        
+        # Convert data to dict if it has to_dict method
+        if self.data is not None:
+            if hasattr(self.data, 'to_dict'):
+                result["data"] = self.data.to_dict()
+            elif isinstance(self.data, dict):
+                result["data"] = self.data
+            else:
+                # For other types, convert to string representation
+                result["data"] = str(self.data)
+        
+        return result
 
 
 class RUDecoder:
