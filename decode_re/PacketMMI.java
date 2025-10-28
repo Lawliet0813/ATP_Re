@@ -80,14 +80,39 @@ public class PacketMMI {
   
   public static final int MMI_TRACK_DESCRIPTION = 4;
   
+  /**
+   * Decodes MMI packet 103 - Confirmed SR (Staff Responsible) Rules.
+   * This packet confirms the SR rules that were echoed back.
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   */
   public static void MMI_CONFIRMED_SR_RULES(byte[] paramArrayOfbyte) {
     MMI_ECHOED_SR_RULES(paramArrayOfbyte);
   }
   
+  /**
+   * Decodes MMI packet 110 - Confirmed Train Data.
+   * This packet confirms the train data that was echoed back.
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   */
   public static void MMI_CONFIRMED_TRAIN_DATA(byte[] paramArrayOfbyte) {
     MMI_ECHOED_TRAIN_DATA(paramArrayOfbyte);
   }
   
+  /**
+   * Decodes MMI packet 14 - Current Driver Data.
+   * 
+   * <p>Returns a Vector containing:</p>
+   * <ol>
+   *   <li>NID_DRIVER - Driver identification (bytes 4-11, 8 bytes)</li>
+   *   <li>NID_OPERATION - Operation number (bytes 12-15, 4 bytes)</li>
+   *   <li>NID_WORKSHIFT - Work shift identification (bytes 16-23, 8 bytes)</li>
+   * </ol>
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   * @return Vector with 3 elements: driver ID, operation number, work shift ID
+   */
   public static Vector MMI_CURRENT_DRIVER_DATA(byte[] paramArrayOfbyte) {
     Vector vector = new Vector();
     byte[] arrayOfByte1 = { paramArrayOfbyte[4], paramArrayOfbyte[5], paramArrayOfbyte[6], paramArrayOfbyte[7], paramArrayOfbyte[8], paramArrayOfbyte[9], paramArrayOfbyte[10], paramArrayOfbyte[11] };
@@ -99,6 +124,18 @@ public class PacketMMI {
     return vector;
   }
   
+  /**
+   * Decodes MMI packet 11 - Current SR (Staff Responsible) Rules.
+   * 
+   * <p>Returns a Vector containing:</p>
+   * <ol>
+   *   <li>V_STFF - Staff Responsible speed (bytes 4-5, 2 bytes)</li>
+   *   <li>L_STFF - Staff Responsible length/distance (bytes 6-9, 4 bytes)</li>
+   * </ol>
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   * @return Vector with 2 elements: SR speed and SR distance
+   */
   public static Vector MMI_CURRENT_SR_RULES(byte[] paramArrayOfbyte) {
     Vector vector = new Vector(2);
     vector.add(new Integer(MMIVariables.MMI_V_STFF(paramArrayOfbyte[4], paramArrayOfbyte[5])));
@@ -107,6 +144,36 @@ public class PacketMMI {
     return vector;
   }
   
+  /**
+   * Decodes MMI packet 6 - Current Train Data.
+   * 
+   * <p>Returns a Vector containing comprehensive train configuration data:</p>
+   * <ol>
+   *   <li>M_DATA_EDIT_ENABLE - Data edit enable flags (bytes 4-5)</li>
+   *   <li>NC_TRAIN - Train category (bytes 6-7)</li>
+   *   <li>L_TRAIN - Train length (bytes 8-9)</li>
+   *   <li>V_MAXTRAIN - Maximum train speed (bytes 10-11)</li>
+   *   <li>M_AXLELOAD - Axle load (byte 13)</li>
+   *   <li>T_BRAKE_SB - Service brake build-up time</li>
+   *   <li>T_BRAKE_EB - Emergency brake build-up time</li>
+   *   <li>T_CUTOFFTRACTION - Traction cut-off time</li>
+   *   <li>A_MAX_ACC - Maximum acceleration</li>
+   *   <li>A_MAX_DEC - Maximum deceleration</li>
+   *   <li>NID_ENGINE - Engine identification</li>
+   *   <li>M_TRAIN_TYPE - Train type</li>
+   *   <li>V_MAXTRAIN_x (4 values) - Maximum speeds for different categories</li>
+   * </ol>
+   * 
+   * <p>Also processes variable-length arrays:</p>
+   * <ul>
+   *   <li>N_TRACTION - Traction system data</li>
+   *   <li>N_DSGUARANT - Distance guaranteed data</li>
+   *   <li>N_DEGUARANT - Deceleration guaranteed data</li>
+   * </ul>
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   * @return Vector containing all train data elements
+   */
   public static Vector MMI_CURRENT_TRAIN_DATA(byte[] paramArrayOfbyte) {
     Vector vector = new Vector();
     vector.add(MMIVariables.MMI_M_DATA_EDIT_ENABLE(paramArrayOfbyte[4], paramArrayOfbyte[5]));
@@ -161,6 +228,20 @@ public class PacketMMI {
     return vector;
   }
   
+  /**
+   * Decodes MMI packet 8 - Driver Message.
+   * 
+   * <p>Returns a Vector containing:</p>
+   * <ol>
+   *   <li>I_TEXT - Text message index (byte 4)</li>
+   *   <li>Q_TEXT_CLASS - Text class qualifier (byte 5, bit 7)</li>
+   *   <li>Q_TEXT_CRITERIA - Text criteria (byte 5, bits 4-6)</li>
+   *   <li>Q_TEXT - Text identifier (bytes 6-7)</li>
+   * </ol>
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   * @return Vector with 4 elements describing the message
+   */
   public static Vector MMI_DRIVER_MESSAGE(byte[] paramArrayOfbyte) {
     Vector vector = new Vector();
     vector.add(new Integer(MMIVariables.MMI_I_TEXT(paramArrayOfbyte[4])));
@@ -171,11 +252,23 @@ public class PacketMMI {
     return vector;
   }
   
+  /**
+   * Decodes MMI packet 111 - Driver Message Acknowledgement.
+   * Processes the acknowledgement of a driver message.
+   * 
+   * @param paramArrayOfbyte the raw packet data containing I_TEXT (byte 4) and Q_ACK (byte 5, bits 4-7)
+   */
   public static void MMI_DRIVER_MESSAGE_ACK(byte[] paramArrayOfbyte) {
     MMIVariables.MMI_I_TEXT(paramArrayOfbyte[4]);
     MMIVariables.MMI_Q_ACK((paramArrayOfbyte[5] & 0xF0) >> 4);
   }
   
+  /**
+   * Decodes MMI packet 101 - Driver Request.
+   * 
+   * @param paramArrayOfbyte the raw packet data
+   * @return M_REQUEST - The type of request made by the driver (byte 4)
+   */
   public static int MMI_DRIVER_REQUEST(byte[] paramArrayOfbyte) {
     return MMIVariables.MMI_M_REQUEST(paramArrayOfbyte[4]);
   }

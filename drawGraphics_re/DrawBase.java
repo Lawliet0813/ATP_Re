@@ -18,21 +18,21 @@ import java.util.Vector;
 public abstract class DrawBase {
   protected Vector BaseData;
   
-  private static int _$18157;
+  private static int rightEdgeCache;
   
-  private static int _$18156;
+  private static int leftEdgeCache;
   
-  private static int _$2995 = 0;
+  private static int drawMode = 0;
   
   protected commonParaSetting cps;
   
-  private static int _$18161;
+  private static int scaleEndLocation;
   
-  private static long _$18159;
+  private static long scaleEndTime;
   
-  private static int _$18160;
+  private static int scaleStartLocation;
   
-  private static long _$18158;
+  private static long scaleStartTime;
   
   public static final int drawByDistance = 0;
   
@@ -48,7 +48,7 @@ public abstract class DrawBase {
   
   protected Graphics2D g2h;
   
-  private static boolean _$18155;
+  private static boolean followMode;
   
   protected static int[] location;
   
@@ -60,9 +60,9 @@ public abstract class DrawBase {
   
   protected drawParameters para;
   
-  private static int[] _$18154;
+  private static int[] cachedScreenPositions;
   
-  private SimpleDateFormat _$3906 = new SimpleDateFormat("HH:mm:ss");
+  private SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
   
   protected static int startLocation;
   
@@ -73,7 +73,7 @@ public abstract class DrawBase {
   protected static boolean typeChanged = true;
   
   static {
-    _$18155 = false;
+    followMode = false;
     mouseX = 0;
     mouseY = 0;
   }
@@ -86,19 +86,33 @@ public abstract class DrawBase {
     setScaleData();
   }
   
-  protected int arrangesoldierPosition(int paramInt) {
+  /**
+   * Converts a real-world distance value to screen X coordinate.
+   * Formula: screenX = basePointX + (distance - scaleStartLocation) / dpiDistX
+   * 
+   * @param distance the distance in centimeters from the origin
+   * @return the corresponding X coordinate on the screen in pixels
+   */
+  protected int convertDistanceToScreenX(int distance) {
     null = 0;
-    return (int)(this.cps.basePointX + (paramInt - _$18160) / this.cps.dpiDistX);
+    return (int)(this.cps.basePointX + (distance - scaleStartLocation) / this.cps.dpiDistX);
   }
   
-  protected int arrangesoldierPosition(long paramLong) {
+  /**
+   * Converts a real-world time value to screen X coordinate.
+   * Formula: screenX = basePointX + ((time - scaleStartTime) / 1000) / dpiX
+   * 
+   * @param time the time in milliseconds since epoch
+   * @return the corresponding X coordinate on the screen in pixels
+   */
+  protected int convertTimeToScreenX(long time) {
     null = 0;
-    return this.cps.basePointX + (int)(((paramLong - _$18158) / 1000L) / this.cps.dpiX);
+    return this.cps.basePointX + (int)(((time - scaleStartTime) / 1000L) / this.cps.dpiX);
   }
   
   protected void drawBasicMessage() {}
   
-  private void _$18198() {
+  private void drawHorizontalGridLines() {
     if (drawType == 1) {
       for (int i = this.para.MinNum; i <= this.para.MaxNum; i = (int)(i + this.para.intervalY * this.para.dpiY)) {
         if (i == this.para.MinNum) {
@@ -106,11 +120,11 @@ public abstract class DrawBase {
         } else {
           this.g2.setColor(this.cps.baseLineColor);
         } 
-        this.g2.drawLine(arrangesoldierPosition(_$18158), showsoldierRangeToDefence(i), arrangesoldierPosition(_$18159), showsoldierRangeToDefence(i));
+        this.g2.drawLine(convertTimeToScreenX(scaleStartTime), convertValueToScreenY(i), convertTimeToScreenX(scaleEndTime), convertValueToScreenY(i));
       } 
       if (this.para.MinNum <= 0 && this.para.MaxNum >= 0) {
         this.g2.setColor(this.cps.mainLineColor);
-        this.g2.drawLine(arrangesoldierPosition(_$18158), showsoldierRangeToDefence(0), arrangesoldierPosition(_$18159), showsoldierRangeToDefence(0));
+        this.g2.drawLine(convertTimeToScreenX(scaleStartTime), convertValueToScreenY(0), convertTimeToScreenX(scaleEndTime), convertValueToScreenY(0));
       } 
     } else {
       for (int i = this.para.MinNum; i <= this.para.MaxNum; i = (int)(i + this.para.intervalY * this.para.dpiY)) {
@@ -119,55 +133,55 @@ public abstract class DrawBase {
         } else {
           this.g2.setColor(this.cps.baseLineColor);
         } 
-        this.g2.drawLine(arrangesoldierPosition(_$18160), showsoldierRangeToDefence(i), arrangesoldierPosition(_$18161), showsoldierRangeToDefence(i));
+        this.g2.drawLine(convertDistanceToScreenX(scaleStartLocation), convertValueToScreenY(i), convertDistanceToScreenX(scaleEndLocation), convertValueToScreenY(i));
       } 
       if (this.para.MinNum <= 0 && this.para.MaxNum >= 0) {
         this.g2.setColor(this.cps.mainLineColor);
-        this.g2.drawLine(arrangesoldierPosition(_$18160), showsoldierRangeToDefence(0), arrangesoldierPosition(_$18161), showsoldierRangeToDefence(0));
+        this.g2.drawLine(convertDistanceToScreenX(scaleStartLocation), convertValueToScreenY(0), convertDistanceToScreenX(scaleEndLocation), convertValueToScreenY(0));
       } 
     } 
   }
   
-  private void _$18196() {
+  private void drawVerticalGridLines() {
     byte b = 0;
     if (drawType == 1) {
-      for (long l = _$18158; l <= _$18159; l = (long)(l + this.cps.intervalX * this.cps.dpiX * 1000.0D)) {
+      for (long l = scaleStartTime; l <= scaleEndTime; l = (long)(l + this.cps.intervalX * this.cps.dpiX * 1000.0D)) {
         if (b % this.cps.BrightLine == 0) {
           this.g2.setColor(this.cps.baseLineColor_light);
         } else {
           this.g2.setColor(this.cps.baseLineColor);
         } 
-        this.g2.drawLine(arrangesoldierPosition(l), showsoldierRangeToDefence(this.para.MaxNum), arrangesoldierPosition(l), showsoldierRangeToDefence(this.para.MinNum));
+        this.g2.drawLine(convertTimeToScreenX(l), convertValueToScreenY(this.para.MaxNum), convertTimeToScreenX(l), convertValueToScreenY(this.para.MinNum));
         b++;
       } 
     } else {
-      for (int i = _$18160; i <= _$18161; i = (int)(i + this.cps.intervalDistX * this.cps.dpiDistX)) {
+      for (int i = scaleStartLocation; i <= scaleEndLocation; i = (int)(i + this.cps.intervalDistX * this.cps.dpiDistX)) {
         if (b % this.cps.BrightLine == 0) {
           this.g2.setColor(this.cps.baseLineColor_light);
         } else {
           this.g2.setColor(this.cps.baseLineColor);
         } 
-        this.g2.drawLine(arrangesoldierPosition(i), showsoldierRangeToDefence(this.para.MaxNum), arrangesoldierPosition(i), showsoldierRangeToDefence(this.para.MinNum));
+        this.g2.drawLine(convertDistanceToScreenX(i), convertValueToScreenY(this.para.MaxNum), convertDistanceToScreenX(i), convertValueToScreenY(this.para.MinNum));
         b++;
       } 
     } 
   }
   
-  private void _$18192() {
+  private void drawAxisLabels() {
     byte b = 0;
     if (drawType == 1) {
-      for (long l = _$18158; l <= _$18159; l = (long)(l + this.cps.intervalX * this.cps.dpiX * 1000.0D)) {
+      for (long l = scaleStartTime; l <= scaleEndTime; l = (long)(l + this.cps.intervalX * this.cps.dpiX * 1000.0D)) {
         if (b % this.cps.BrightLine == 0) {
           this.g2.setColor(this.cps.charColor);
-          this.g2.drawString(this._$3906.format(new Date(l)), arrangesoldierPosition(l) - 20, this.para.basePointY() + 12);
+          this.g2.drawString(this.timeFormatter.format(new Date(l)), convertTimeToScreenX(l) - 20, this.para.basePointY() + 12);
         } 
         b++;
       } 
     } else {
-      for (int i = _$18160; i <= _$18161; i = (int)(i + this.cps.intervalDistX * this.cps.dpiDistX)) {
+      for (int i = scaleStartLocation; i <= scaleEndLocation; i = (int)(i + this.cps.intervalDistX * this.cps.dpiDistX)) {
         if (b % this.cps.BrightLine == 0) {
           this.g2.setColor(this.cps.charColor);
-          this.g2.drawString((i / 100) + "m", arrangesoldierPosition(i) - 20, this.para.basePointY() + 12);
+          this.g2.drawString((i / 100) + "m", convertDistanceToScreenX(i) - 20, this.para.basePointY() + 12);
         } 
         b++;
       } 
@@ -176,21 +190,21 @@ public abstract class DrawBase {
   
   public void drawScanner() {
     this.g2.setColor(this.cps.mouse);
-    if (mouseX > 0 && mouseX < showBattleLingDepth() && mouseY > this.para.UpperBound && mouseY < this.para.UpperBound + showBattleLineRange()) {
+    if (mouseX > 0 && mouseX < getChartWidth() && mouseY > this.para.UpperBound && mouseY < this.para.UpperBound + getChartHeight()) {
       this.g2.drawLine(mouseX, this.para.UpperBound, mouseX, (mouseY - 10 < this.para.UpperBound) ? this.para.UpperBound : (mouseY - 10));
-      this.g2.drawLine(mouseX, (mouseY + 10 > showBattleLineRange() + this.para.UpperBound) ? (showBattleLineRange() + this.para.UpperBound) : (mouseY + 10), mouseX, showBattleLineRange() + this.para.UpperBound);
+      this.g2.drawLine(mouseX, (mouseY + 10 > getChartHeight() + this.para.UpperBound) ? (getChartHeight() + this.para.UpperBound) : (mouseY + 10), mouseX, getChartHeight() + this.para.UpperBound);
       this.g2.drawLine(0, mouseY, mouseX - 10, mouseY);
-      this.g2.drawLine(mouseX + 10, mouseY, showBattleLingDepth(), mouseY);
+      this.g2.drawLine(mouseX + 10, mouseY, getChartWidth(), mouseY);
       if (!this.outOfView) {
         this.g2.setColor(new Color(0, 0, 255, 80));
         this.g2.fillRect(mouseX + 10, mouseY, 50, 13);
         this.g2.setColor(Color.white);
-        this.g2.drawString(this._$3906.format(new Date(soloderReport(mouseX))), mouseX + 13, mouseY + 10);
+        this.g2.drawString(this.timeFormatter.format(new Date(getTimeForScreenX(mouseX))), mouseX + 13, mouseY + 10);
       } else {
         this.g2.setColor(new Color(0, 0, 255, 80));
         this.g2.fillRect(mouseX + 10 - 70, mouseY, 50, 13);
         this.g2.setColor(Color.white);
-        this.g2.drawString(this._$3906.format(new Date(soloderReport(mouseX))), mouseX + 13 - 70, mouseY + 10);
+        this.g2.drawString(this.timeFormatter.format(new Date(getTimeForScreenX(mouseX))), mouseX + 13 - 70, mouseY + 10);
       } 
     } 
   }
@@ -201,26 +215,26 @@ public abstract class DrawBase {
       Vector vector = paramVector.get(b);
       long l = ((Date)vector.get(0)).getTime();
       int i = ((Integer)vector.get(1)).intValue() - 60000;
-      int j = showsoldierWhereToStand(l);
-      this.g2.drawLine(j, showsoldierRangeToDefence(this.para.MinNum), j, showsoldierRangeToDefence(this.para.MaxNum));
+      int j = getScreenXForTime(l);
+      this.g2.drawLine(j, convertValueToScreenY(this.para.MinNum), j, convertValueToScreenY(this.para.MaxNum));
       if (ATPMessages.showChinese) {
-        this.g2.drawString(Station.getStationChtName(i), j - 4, showsoldierRangeToDefence(this.para.MaxNum));
+        this.g2.drawString(Station.getStationChtName(i), j - 4, convertValueToScreenY(this.para.MaxNum));
       } else {
-        this.g2.drawString(Station.getStationEngName(i) + "(" + i + ")", j - 4, showsoldierRangeToDefence(this.para.MaxNum));
+        this.g2.drawString(Station.getStationEngName(i) + "(" + i + ")", j - 4, convertValueToScreenY(this.para.MaxNum));
       } 
     } 
   }
   
   public int getLeftEdge() {
-    return _$18157;
+    return leftEdgeCache;
   }
   
   public int getRightEdge() {
-    return _$18156;
+    return rightEdgeCache;
   }
   
   public boolean isFollowMode() {
-    return _$18155;
+    return followMode;
   }
   
   public void isMessageOutOfView(boolean paramBoolean) {
@@ -230,16 +244,16 @@ public abstract class DrawBase {
   public void paintBody(Graphics paramGraphics) throws Exception {
     this.g2 = (Graphics2D)paramGraphics;
     if (this.para.drawBody) {
-      _$18198();
-      _$18196();
+      drawHorizontalGridLines();
+      drawVerticalGridLines();
     } 
     if (this.para.drawValues)
-      _$18192(); 
+      drawAxisLabels(); 
   }
   
   public void paintHeader(Graphics paramGraphics) throws Exception {
     this.g2h = (Graphics2D)paramGraphics;
-    _$18200(this.para.message);
+    drawHeaderLabels(this.para.message);
   }
   
   public void resetScale() {}
@@ -271,11 +285,11 @@ public abstract class DrawBase {
   }
   
   public void setFollowMode(boolean paramBoolean) {
-    _$18155 = paramBoolean;
+    followMode = paramBoolean;
   }
   
   public void setLeftEdge(int paramInt) {
-    _$18157 = paramInt;
+    leftEdgeCache = paramInt;
   }
   
   public void setMouseXY(int paramInt1, int paramInt2) {
@@ -284,7 +298,7 @@ public abstract class DrawBase {
   }
   
   public void setRightEdge(int paramInt) {
-    _$18156 = paramInt;
+    rightEdgeCache = paramInt;
   }
   
   public void setScaleData() {
@@ -296,7 +310,7 @@ public abstract class DrawBase {
       } 
       time = new Date[this.BaseData.size()];
       location = new int[this.BaseData.size()];
-      _$18154 = new int[this.BaseData.size()];
+      cachedScreenPositions = new int[this.BaseData.size()];
       if (this.BaseData.size() > 0) {
         startTime = ((Date)((Vector)this.BaseData.get(0)).get(0)).getTime();
         endTime = startTime;
@@ -312,94 +326,120 @@ public abstract class DrawBase {
         startLocation = (location[b1] < startLocation) ? location[b1] : startLocation;
         endLocation = (location[b1] > endLocation) ? location[b1] : endLocation;
       } 
-      _$18175();
+      calculateScaleBounds();
       for (byte b2 = 0; b2 < this.BaseData.size(); b2++)
-        _$18154[b2] = (drawType == 1) ? arrangesoldierPosition(time[b2].getTime()) : arrangesoldierPosition(location[b2]); 
+        cachedScreenPositions[b2] = (drawType == 1) ? convertTimeToScreenX(time[b2].getTime()) : convertDistanceToScreenX(location[b2]); 
     } 
   }
   
-  private void _$18175() {
+  private void calculateScaleBounds() {
     if (drawType == 1) {
       long l1 = (long)((3 * this.cps.intervalX) * this.cps.dpiX * 1000.0D);
       long l2 = startTime % l1;
       if (l2 != 0L) {
-        _$18158 = startTime - l2;
+        scaleStartTime = startTime - l2;
       } else {
-        _$18158 = startTime - l1;
+        scaleStartTime = startTime - l1;
       } 
       l2 = endTime % l1;
       if (l2 != 0L) {
-        _$18159 = endTime + l1 - l2;
+        scaleEndTime = endTime + l1 - l2;
       } else {
-        _$18159 = endTime;
+        scaleEndTime = endTime;
       } 
     } else {
       int i = (int)((3 * this.cps.intervalDistX) * this.cps.dpiDistX);
       int j = startLocation % i;
       if (j != 0) {
-        _$18160 = startLocation - j;
+        scaleStartLocation = startLocation - j;
       } else {
-        _$18160 = startLocation - i;
+        scaleStartLocation = startLocation - i;
       } 
       j = endLocation % i;
       if (j != 0) {
-        _$18161 = endLocation + i - j;
+        scaleEndLocation = endLocation + i - j;
       } else {
-        _$18161 = endLocation;
+        scaleEndLocation = endLocation;
       } 
     } 
   }
   
-  protected boolean shouldsoldierJoinThisWar(long paramLong) {
+  protected boolean isTimeInView(long time) {
     return true;
   }
   
-  public int showBattleLineRange() {
+  public int getChartHeight() {
     null = 0;
-    return Math.abs(showsoldierRangeToDefence(this.para.MaxNum) - showsoldierRangeToDefence(this.para.MinNum));
+    return Math.abs(convertValueToScreenY(this.para.MaxNum) - convertValueToScreenY(this.para.MinNum));
   }
   
-  public int showBattleLingDepth() {
-    return (drawType == 1) ? (int)(((_$18159 - _$18158) / 1000L) / this.cps.dpiX) : (int)((_$18161 - _$18160) / this.cps.dpiDistX);
+  public int getChartWidth() {
+    return (drawType == 1) ? (int)(((scaleEndTime - scaleStartTime) / 1000L) / this.cps.dpiX) : (int)((scaleEndLocation - scaleStartLocation) / this.cps.dpiDistX);
   }
   
-  private void _$18200(String paramString) {
+  private void drawHeaderLabels(String paramString) {
     this.g2h.setColor(this.cps.charColor);
-    this.g2h.drawString(paramString, 5, this.para.basePointY() - showBattleLineRange() - 15);
+    this.g2h.drawString(paramString, 5, this.para.basePointY() - getChartHeight() - 15);
     for (int i = this.para.MinNum; i <= this.para.MaxNum; i = (int)(i + this.para.intervalY * this.para.dpiY)) {
       this.g2h.setColor(this.cps.charColor);
-      this.g2h.drawString("" + i, this.cps.headerWidth - 25, showsoldierRangeToDefence(i));
+      this.g2h.drawString("" + i, this.cps.headerWidth - 25, convertValueToScreenY(i));
       this.g2h.setColor(this.cps.mainLineColor);
-      this.g2h.drawLine(this.cps.headerWidth - 1, showsoldierRangeToDefence(i), this.cps.headerWidth - 3, showsoldierRangeToDefence(i));
+      this.g2h.drawLine(this.cps.headerWidth - 1, convertValueToScreenY(i), this.cps.headerWidth - 3, convertValueToScreenY(i));
     } 
-    this.g2h.drawLine(this.cps.headerWidth - 1, showsoldierRangeToDefence(this.para.MaxNum) - 10, this.cps.headerWidth - 1, showsoldierRangeToDefence(this.para.MinNum));
+    this.g2h.drawLine(this.cps.headerWidth - 1, convertValueToScreenY(this.para.MaxNum) - 10, this.cps.headerWidth - 1, convertValueToScreenY(this.para.MinNum));
   }
   
-  public int showsoldierRangeToDefence(int paramInt) {
+  /**
+   * Converts a value (speed, distance, etc.) to screen Y coordinate.
+   * Formula: screenY = basePointY - (value - MinNum) / dpiY
+   * 
+   * @param value the real-world value to convert (e.g., speed in km/h)
+   * @return the corresponding Y coordinate on the screen in pixels
+   */
+  public int convertValueToScreenY(int value) {
     null = 0;
-    return this.para.basePointY() - (int)((paramInt - this.para.MinNum) / this.para.dpiY);
+    return this.para.basePointY() - (int)((value - this.para.MinNum) / this.para.dpiY);
   }
   
-  public int showsoldierWhereToStand(long paramLong) {
-    int i = Arrays.binarySearch((Object[])time, new Date(paramLong));
+  /**
+   * Gets the screen X coordinate for a given time value by looking it up in the cached positions.
+   * 
+   * @param time the time in milliseconds since epoch
+   * @return the corresponding X coordinate on the screen in pixels
+   */
+  public int getScreenXForTime(long time) {
+    int i = Arrays.binarySearch((Object[])time, new Date(time));
     if (i < 0)
       try {
-        return _$18154[Math.abs(i) - 1];
+        return cachedScreenPositions[Math.abs(i) - 1];
       } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-        return _$18154[_$18154.length - 1];
+        return cachedScreenPositions[cachedScreenPositions.length - 1];
       } catch (Exception exception) {
         exception.printStackTrace();
         return 0;
       }  
-    return _$18154[i];
+    return cachedScreenPositions[i];
   }
   
-  public long soloderReport() {
-    return soloderReport(mouseX);
+  /**
+   * Converts screen X coordinate back to time value.
+   * Inverse of convertTimeToScreenX.
+   * Formula: time = (screenX - basePointX) * dpiX * 1000 + scaleStartTime
+   * 
+   * @return the time in milliseconds for the current mouse position
+   */
+  public long getTimeForMouseX() {
+    return getTimeForScreenX(mouseX);
   }
   
-  public long soloderReport(int paramInt) {
+  /**
+   * Converts screen X coordinate back to time value.
+   * 
+   * @param screenX the X coordinate on the screen in pixels
+   * @return the time in milliseconds since epoch
+   */
+  public long getTimeForScreenX(int screenX) {
     null = 0L;
-    return (long)((paramInt - this.cps.basePointX) * this.cps.dpiX * 1000.0D + _$18158);
+    return (long)((screenX - this.cps.basePointX) * this.cps.dpiX * 1000.0D + scaleStartTime);
   }
 }

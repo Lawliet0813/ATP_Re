@@ -18,43 +18,43 @@ import java.util.Date;
 import java.util.Vector;
 
 public class ConnectFTP {
-  private static String _$2707 = "";
+  private static String ftpHostIp = "";
   
-  private static String _$2711;
+  private static String ftpLogPath;
   
-  private static int _$2710;
+  private static int ftpPort;
   
-  private static String _$2708 = "";
+  private static String ftpUsername = "";
   
-  private static String _$2709 = "";
+  private static String ftpPassword = "";
   
-  private static final int _$2712 = 58;
+  private static final int BUFFER_SIZE_LARGE = 58;
   
-  private static final int _$2714 = 44;
+  private static final int BUFFER_SIZE_MEDIUM = 44;
   
-  private static final int _$2713 = 29;
+  private static final int BUFFER_SIZE_SMALL = 29;
   
   ATPFTP ftp;
   
   static {
-    _$2710 = 21;
-    _$2711 = "";
+    ftpPort = 21;
+    ftpLogPath = "";
   }
   
   public ConnectFTP(String paramString1, int paramInt, String paramString2, String paramString3, String paramString4) {
-    _$2707 = paramString1;
-    _$2710 = paramInt;
-    _$2708 = paramString2;
-    _$2709 = paramString3;
-    _$2711 = paramString4;
+    ftpHostIp = paramString1;
+    ftpPort = paramInt;
+    ftpUsername = paramString2;
+    ftpPassword = paramString3;
+    ftpLogPath = paramString4;
   }
   
   public ConnectFTP() throws Exception {
-    _$2707 = InitParameters.FTPHostIP;
-    _$2710 = InitParameters.FTPPort;
-    _$2708 = InitParameters.FTPUserName;
-    _$2709 = InitParameters.FTPUserPWD;
-    _$2711 = InitParameters.FTPLogPath;
+    ftpHostIp = InitParameters.FTPHostIP;
+    ftpPort = InitParameters.FTPPort;
+    ftpUsername = InitParameters.FTPUserName;
+    ftpPassword = InitParameters.FTPUserPWD;
+    ftpLogPath = InitParameters.FTPLogPath;
   }
   
   public boolean closeServer() {
@@ -68,11 +68,11 @@ public class ConnectFTP {
     } 
   }
   
-  private boolean _$2779(File paramFile) {
+  private boolean deleteRecursively(File paramFile) {
     if (paramFile.isDirectory()) {
       File[] arrayOfFile = paramFile.listFiles();
       for (byte b = 0; b < arrayOfFile.length; b++)
-        _$2779(arrayOfFile[b]); 
+        deleteRecursively(arrayOfFile[b]); 
     } 
     System.out.print("deleting: " + paramFile.toString());
     System.out.println(" - " + paramFile.delete());
@@ -81,9 +81,9 @@ public class ConnectFTP {
   
   public boolean ftpconnect() throws Exception {
     try {
-      this.ftp = new ATPFTP(_$2707, _$2710, _$2708, _$2709, "");
-      this.ftp.connect(_$2707, _$2710);
-      if (!this.ftp.login(_$2708, _$2709))
+      this.ftp = new ATPFTP(ftpHostIp, ftpPort, ftpUsername, ftpPassword, "");
+      this.ftp.connect(ftpHostIp, ftpPort);
+      if (!this.ftp.login(ftpUsername, ftpPassword))
         throw new Exception("使用者名稱/密碼錯誤."); 
       this.ftp.setFileType(2);
       return true;
@@ -94,7 +94,7 @@ public class ConnectFTP {
   }
   
   public Vector getATPDirList() throws Exception {
-    this.ftp.changeWorkingDirectory(_$2711);
+    this.ftp.changeWorkingDirectory(ftpLogPath);
     BufferedInputStream bufferedInputStream = new BufferedInputStream(this.ftp.retrieveFileStream("ftpFileList.log"));
     System.out.print(this.ftp.getReplyString());
     File file = new File("C:\\ATPMW\\FTPLSIT.log");
@@ -137,7 +137,7 @@ public class ConnectFTP {
   
   public int getDirSize(String paramString1, String paramString2) throws Exception {
     int i = 0;
-    this.ftp.changeWorkingDirectory(_$2711);
+    this.ftp.changeWorkingDirectory(ftpLogPath);
     this.ftp.changeWorkingDirectory(paramString1);
     this.ftp.changeWorkingDirectory(paramString2);
     i = this.ftp.getSize();
@@ -179,7 +179,7 @@ public class ConnectFTP {
   
   public boolean isExist(String paramString1, String paramString2) throws Exception {
     paramString2 = paramString2 + "_-1.zip";
-    this.ftp.changeWorkingDirectory(_$2711);
+    this.ftp.changeWorkingDirectory(ftpLogPath);
     this.ftp.changeWorkingDirectory(paramString1);
     String[] arrayOfString = this.ftp.getFile();
     this.ftp.changeToParentDirectory();
@@ -189,7 +189,7 @@ public class ConnectFTP {
     return (i >= 0);
   }
   
-  private boolean _$2801(String paramString) throws Exception {
+  private boolean fileExistsInList(String paramString) throws Exception {
     boolean bool = false;
     Vector vector = getList();
     for (byte b = 0; b < vector.size() && !bool; b++)
@@ -249,7 +249,7 @@ public class ConnectFTP {
     File[] arrayOfFile = this.ftp.mget(paramArrayOfString);
     ATPUnZIP aTPUnZIP = new ATPUnZIP(arrayOfFile, paramFile);
     aTPUnZIP.start();
-    _$2779(new File("C:\\ftptest\\"));
+    deleteRecursively(new File("C:\\ftptest\\"));
     return true;
   }
   
@@ -268,12 +268,12 @@ public class ConnectFTP {
     aTPZIP.start();
     File[] arrayOfFile = aTPZIP.getZIPList();
     this.ftp.mput(arrayOfFile, paramString);
-    _$2779(file);
+    deleteRecursively(file);
     return true;
   }
   
   public boolean rmdir(String paramString1, String paramString2) throws IOException, Exception {
-    String str = _$2711 + "\\" + paramString1 + "\\" + paramString2 + "_-1.zip";
+    String str = ftpLogPath + "\\" + paramString1 + "\\" + paramString2 + "_-1.zip";
     this.ftp.delete(str);
     return true;
   }
@@ -284,10 +284,10 @@ public class ConnectFTP {
   }
   
   public boolean testConnectFTP(String paramString1, int paramInt, String paramString2, String paramString3) throws Exception {
-    _$2707 = paramString1;
-    _$2710 = paramInt;
-    _$2708 = paramString2;
-    _$2709 = paramString3;
+    ftpHostIp = paramString1;
+    ftpPort = paramInt;
+    ftpUsername = paramString2;
+    ftpPassword = paramString3;
     boolean bool = ftpconnect();
     this.ftp.disconnect();
     return bool;

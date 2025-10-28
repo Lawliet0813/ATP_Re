@@ -4,11 +4,59 @@ import com.MiTAC.TRA.ATP.Tools.Byte2Number;
 import com.MiTAC.TRA.ATP.decoder.waySidePacket.WaySideTelegramPacketDecoder;
 import java.util.Vector;
 
+/**
+ * BTMDecoder is responsible for reassembling BTM (Balise Transmission Module) telegrams
+ * from 5 data fragments received over MVB (Multifunction Vehicle Bus).
+ * 
+ * <p>Each complete BTM telegram is split into 5 fragments that arrive separately.
+ * This class tracks multiple telegram sequences simultaneously and reassembles them.</p>
+ * 
+ * <h3>Data Structure:</h3>
+ * <ul>
+ *   <li><b>pointer</b>: Array tracking which sequence numbers are being collected (index = slot, value = sequence number)</li>
+ *   <li><b>pnt</b>: 2D array tracking which fragments have been received (pnt[slot][fragmentNo] = 1 if received)</li>
+ *   <li><b>btmData</b>: 3D array storing the actual fragment data (btmData[slot][fragmentNo][bytes])</li>
+ * </ul>
+ * 
+ * <h3>Reassembly Process:</h3>
+ * <ol>
+ *   <li>When a fragment arrives (via setData), extract its sequence number from byte[0]</li>
+ *   <li>Find or allocate a slot in the pointer array for this sequence number</li>
+ *   <li>Store the fragment data in btmData[slot][fragmentNo]</li>
+ *   <li>Mark the fragment as received in pnt[slot][fragmentNo] = 1</li>
+ *   <li>When all 5 fragments are received (all pnt[slot][0-4] == 1), decode the complete telegram</li>
+ *   <li>Reset the slot for reuse with the next sequence</li>
+ * </ol>
+ * 
+ * <h3>Fragment Layout:</h3>
+ * <pre>
+ * Fragment 0: bytes 22-25 (4 bytes) -> output bytes 0-3
+ * Fragment 1: bytes 1-25  (25 bytes) -> output bytes 4-28
+ * Fragment 2: bytes 1-25  (25 bytes) -> output bytes 29-53
+ * Fragment 3: bytes 1-25  (25 bytes) -> output bytes 54-78
+ * Fragment 4: bytes 1-25  (25 bytes) -> output bytes 79-103
+ * Total: 104 bytes
+ * </pre>
+ */
 public class BTMDecoder {
+  /**
+   * Array of 10 slots to track up to 10 concurrent telegram sequences.
+   * Each element stores the sequence number being collected in that slot,
+   * or -1 if the slot is available.
+   */
   int[] pointer = new int[10];
   
+  /**
+   * 2D array tracking which of the 5 fragments have been received for each slot.
+   * pnt[slot][fragmentNo] = 1 when that fragment has been received.
+   * pnt[slot][fragmentNo] = 0 when that fragment is still missing.
+   */
   int[][] pnt = new int[10][5];
   
+  /**
+   * 3D array storing the actual fragment data.
+   * btmData[slot][fragmentNo][bytes] contains up to 32 bytes per fragment.
+   */
   byte[][][] btmData = new byte[10][5][32];
   
   private WaySideTelegramPacketDecoder wtpd;
@@ -27,6 +75,12 @@ public class BTMDecoder {
     } 
   }
   
+  /**
+   * Receives a BTM telegram fragment and stores it for reassembly.
+   * 
+   * @param bdata the fragment data (32 bytes), where byte[0] contains the sequence number
+   * @param telegramNo the fragment number (1-5)
+   */
   public void setData(byte[] bdata, int telegramNo) {
     int sequenceNumber = Byte2Number.getUnsigned(bdata[0]);
     int point = -1;
@@ -67,6 +121,18 @@ public class BTMDecoder {
     } 
   }
   
+  /**
+   * Decodes a complete BTM telegram by extracting and concatenating data from all 5 fragments.
+   * 
+   * <p>The 5 fragments are reassembled into a single 104-byte array according to the
+   * ERTMS/ETCS specification for BTM telegrams:</p>
+   * <ul>
+   *   <li>Fragment 0 (bytes 22-25): 4 bytes of header data</li>
+   *   <li>Fragments 1-4 (bytes 1-25 each): 100 bytes of telegram payload</li>
+   * </ul>
+   * 
+   * @param bdata 2D array containing the 5 fragments [fragment][bytes]
+   */
   private void decode(byte[][] bdata) {
     try {
       byte[] data = new byte[104];
