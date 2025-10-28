@@ -1,0 +1,555 @@
+=== Decoded Packets (56 total) ===
+
+--- Packet #1 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:23
+  Train Location (meters): 5118169
+  Train Speed (km/h): 2103
+
+--- Packet #2 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:23
+  Train Location (meters): 5118589
+  Train Speed (km/h): 2105
+
+--- Packet #3 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:28
+  Train Location (meters): 5128682
+  Train Speed (km/h): 2103
+
+--- Packet #4 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:28
+  Train Location (meters): 5129313
+  Train Speed (km/h): 2104
+
+--- Packet #5 ---
+Packet Type: 91
+Description: no handle Record Type:91
+Header:
+  Packet Number/Type: 91
+  Recording Timestamp: 2025-09-03T02:44:28
+  Train Location (meters): 5130155
+  Train Speed (km/h): 2104
+
+--- Packet #6 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #7 ---
+Packet Type: 43
+Description: MVB_LOG_BTM_TGM_1
+Header:
+  Packet Number/Type: 43
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #8 ---
+Packet Type: 44
+Description: MVB_LOG_BTM_TGM_2
+Header:
+  Packet Number/Type: 44
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #9 ---
+Packet Type: 45
+Description: MVB_LOG_BTM_TGM_3
+Header:
+  Packet Number/Type: 45
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #10 ---
+Packet Type: 62
+Description: no handle Record Type:62
+Header:
+  Packet Number/Type: 62
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #11 ---
+Packet Type: 63
+Description: no handle Record Type:63
+Header:
+  Packet Number/Type: 63
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #12 ---
+Packet Type: 64
+Description: no handle Record Type:64
+Header:
+  Packet Number/Type: 64
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #13 ---
+Packet Type: 46
+Description: MVB_LOG_BTM_TGM_4
+Header:
+  Packet Number/Type: 46
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #14 ---
+Packet Type: 47
+Description: MVB_LOG_BTM_TGM_5
+Header:
+  Packet Number/Type: 47
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+Decoded Data:
+  Telegram Sequence Number: 37
+  Telegram Size: 104
+  Telegram:
+    Telegram Sequence Number: 37
+    Data Length (bytes): 104
+    Raw Data (hexadecimal): 9002006ec20d415022a0bec20ce28110809820c8620885000ffc213d696001e0cc44000050aa04e40004202273e043682210000401022200763c102019f0d01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc
+    Balise Group Identifier: None
+    Message Count: None
+
+--- Packet #15 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5138577
+  Train Speed (km/h): 2107
+
+--- Packet #16 ---
+Packet Type: 1
+Description: MMI_DYNAMIC
+Header:
+  Packet Number/Type: 1
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+Decoded Data:
+  Train Speed (km/h): 2107
+  Train Acceleration (cm/s²): 0
+  Train Position (meters): 5139209
+  Brake Target Position (meters): 5221620
+  Target Speed (km/h): 2222
+  Intervention Warning Time (seconds): 65535
+  Permitted Speed (km/h): 2361
+  Release Speed (km/h): 65535
+  Intervention Speed (km/h): 65535
+  Warning Mode (0-15): 0
+  Slip Indication (0-1): 0
+  Slide Indication (0-1): 0
+  BCSP Position (meters): 4294967295
+
+--- Packet #17 ---
+Packet Type: 43
+Description: MVB_LOG_BTM_TGM_1
+Header:
+  Packet Number/Type: 43
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #18 ---
+Packet Type: 44
+Description: MVB_LOG_BTM_TGM_2
+Header:
+  Packet Number/Type: 44
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #19 ---
+Packet Type: 45
+Description: MVB_LOG_BTM_TGM_3
+Header:
+  Packet Number/Type: 45
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #20 ---
+Packet Type: 46
+Description: MVB_LOG_BTM_TGM_4
+Header:
+  Packet Number/Type: 46
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #21 ---
+Packet Type: 47
+Description: MVB_LOG_BTM_TGM_5
+Header:
+  Packet Number/Type: 47
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+Decoded Data:
+  Telegram Sequence Number: 38
+  Telegram Size: 104
+  Telegram:
+    Telegram Sequence Number: 38
+    Data Length (bytes): 104
+    Raw Data (hexadecimal): 90127feedffefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc
+    Balise Group Identifier: None
+    Message Count: None
+
+--- Packet #22 ---
+Packet Type: 62
+Description: no handle Record Type:62
+Header:
+  Packet Number/Type: 62
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #23 ---
+Packet Type: 63
+Description: no handle Record Type:63
+Header:
+  Packet Number/Type: 63
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #24 ---
+Packet Type: 64
+Description: no handle Record Type:64
+Header:
+  Packet Number/Type: 64
+  Recording Timestamp: 2025-09-03T02:44:32
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #25 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:33
+  Train Location (meters): 5139209
+  Train Speed (km/h): 2107
+
+--- Packet #26 ---
+Packet Type: 1
+Description: ATP/MMI Packet Type 4
+Header:
+  Packet Number/Type: 1
+  Recording Timestamp: 2025-09-03T02:44:33
+  Train Location (meters): 5140098
+  Train Speed (km/h): 2108
+
+--- Packet #27 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:33
+  Train Location (meters): 5140098
+  Train Speed (km/h): 2108
+
+--- Packet #28 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:38
+  Train Location (meters): 5150217
+  Train Speed (km/h): 2108
+
+--- Packet #29 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:38
+  Train Location (meters): 5150639
+  Train Speed (km/h): 2110
+
+--- Packet #30 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:43
+  Train Location (meters): 5160759
+  Train Speed (km/h): 2106
+
+--- Packet #31 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:43
+  Train Location (meters): 5161180
+  Train Speed (km/h): 2106
+
+--- Packet #32 ---
+Packet Type: 91
+Description: no handle Record Type:91
+Header:
+  Packet Number/Type: 91
+  Recording Timestamp: 2025-09-03T02:44:46
+  Train Location (meters): 5169186
+  Train Speed (km/h): 2107
+
+--- Packet #33 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:48
+  Train Location (meters): 5171923
+  Train Speed (km/h): 2104
+
+--- Packet #34 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:48
+  Train Location (meters): 5171923
+  Train Speed (km/h): 2104
+
+--- Packet #35 ---
+Packet Type: 31
+Description: no handle Record Type:31
+Header:
+  Packet Number/Type: 31
+  Recording Timestamp: 2025-09-03T02:44:53
+  Train Location (meters): 5182229
+  Train Speed (km/h): 2104
+
+--- Packet #36 ---
+Packet Type: 211
+Description: no handle Record Type:211
+Header:
+  Packet Number/Type: 211
+  Recording Timestamp: 2025-09-03T02:44:53
+  Train Location (meters): 5182229
+  Train Speed (km/h): 2104
+
+--- Packet #37 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #38 ---
+Packet Type: 43
+Description: MVB_LOG_BTM_TGM_1
+Header:
+  Packet Number/Type: 43
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #39 ---
+Packet Type: 44
+Description: MVB_LOG_BTM_TGM_2
+Header:
+  Packet Number/Type: 44
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #40 ---
+Packet Type: 45
+Description: MVB_LOG_BTM_TGM_3
+Header:
+  Packet Number/Type: 45
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #41 ---
+Packet Type: 62
+Description: no handle Record Type:62
+Header:
+  Packet Number/Type: 62
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #42 ---
+Packet Type: 63
+Description: no handle Record Type:63
+Header:
+  Packet Number/Type: 63
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #43 ---
+Packet Type: 64
+Description: no handle Record Type:64
+Header:
+  Packet Number/Type: 64
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #44 ---
+Packet Type: 46
+Description: MVB_LOG_BTM_TGM_4
+Header:
+  Packet Number/Type: 46
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #45 ---
+Packet Type: 47
+Description: MVB_LOG_BTM_TGM_5
+Header:
+  Packet Number/Type: 47
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+Decoded Data:
+  Telegram Sequence Number: 39
+  Telegram Size: 104
+  Telegram:
+    Telegram Sequence Number: 39
+    Data Length (bytes): 104
+    Raw Data (hexadecimal): 90127feedfff7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc
+    Balise Group Identifier: None
+    Message Count: None
+
+--- Packet #46 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5190643
+  Train Speed (km/h): 2105
+
+--- Packet #47 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #48 ---
+Packet Type: 42
+Description: MVB_LOG_BTM_STATUS_1: no packet format to decode
+Header:
+  Packet Number/Type: 42
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #49 ---
+Packet Type: 43
+Description: MVB_LOG_BTM_TGM_1
+Header:
+  Packet Number/Type: 43
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #50 ---
+Packet Type: 45
+Description: MVB_LOG_BTM_TGM_3
+Header:
+  Packet Number/Type: 45
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #51 ---
+Packet Type: 62
+Description: no handle Record Type:62
+Header:
+  Packet Number/Type: 62
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #52 ---
+Packet Type: 63
+Description: no handle Record Type:63
+Header:
+  Packet Number/Type: 63
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #53 ---
+Packet Type: 64
+Description: no handle Record Type:64
+Header:
+  Packet Number/Type: 64
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #54 ---
+Packet Type: 44
+Description: MVB_LOG_BTM_TGM_2
+Header:
+  Packet Number/Type: 44
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #55 ---
+Packet Type: 46
+Description: MVB_LOG_BTM_TGM_4
+Header:
+  Packet Number/Type: 46
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+
+--- Packet #56 ---
+Packet Type: 47
+Description: MVB_LOG_BTM_TGM_5
+Header:
+  Packet Number/Type: 47
+  Recording Timestamp: 2025-09-03T02:44:57
+  Train Location (meters): 5191275
+  Train Speed (km/h): 2105
+Decoded Data:
+  Telegram Sequence Number: 40
+  Telegram Size: 104
+  Telegram:
+    Telegram Sequence Number: 40
+    Data Length (bytes): 104
+    Raw Data (hexadecimal): 9002016ec20ac31024a0007fe000421ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc
+    Balise Group Identifier: None
+    Message Count: None
