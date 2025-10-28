@@ -62,7 +62,7 @@ public class RUFileDecodeListTool {
             }
             
             // Process packets
-            while (fis.available() > 16) {
+            while ( true ) {
                 // Read packet header (16 bytes: timestamp, location, speed, etc.)
                 byte[] packetHeader = new byte[16];
                 int read = fis.read(packetHeader);
