@@ -10,11 +10,13 @@ Files decoded:
 - tests/RU_file/024423.RU
 - tests/MMI_file/00000267_001170--_775495--_-9042/114011.MMI
 - tests/MMI_file/00000267_001170--_775495--_-9042/120001.MMI
+
+Requirements: Python 3.9+ (for type hint syntax)
 """
 
 import sys
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -22,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from src.atp_re.decoders import RUDecoder, PacketFormatter
 
 
-def decode_file(file_path: Path) -> tuple[List[Dict[str, Any]], dict]:
+def decode_file(file_path: Path) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """
     Decode all packets from a file.
     
@@ -45,8 +47,14 @@ def decode_file(file_path: Path) -> tuple[List[Dict[str, Any]], dict]:
     packet_count = 0
     errors = []
     packet_types = {}
+    max_errors = 100  # Prevent excessive error accumulation
     
     while offset < len(file_content):
+        # Stop if too many errors encountered
+        if len(errors) >= max_errors:
+            print(f"  Warning: Stopping decode after {max_errors} errors")
+            break
+        
         # Check minimum header size
         if offset + 15 > len(file_content):
             break
@@ -77,12 +85,20 @@ def decode_file(file_path: Path) -> tuple[List[Dict[str, Any]], dict]:
             packet_count += 1
             offset += packet_length
             
-        except Exception as e:
+        except (ValueError, IndexError) as e:
+            # Handle specific decoding errors
             errors.append({
                 "offset": offset,
                 "error": str(e)
             })
             # Try to skip this packet and continue
+            offset += 1
+        except Exception as e:
+            # Catch unexpected errors but limit them
+            errors.append({
+                "offset": offset,
+                "error": f"Unexpected error: {str(e)}"
+            })
             offset += 1
     
     statistics = {
