@@ -129,3 +129,6 @@ atp_re_launcher.log
 *.backup
 *.bak
 dump.sql
+
+# Output files (plots, generated data)
+output/
