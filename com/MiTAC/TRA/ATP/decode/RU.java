@@ -72,7 +72,8 @@ public class RU
     public static Vector T_ATP_DOWN_DIS_SPEED_TIME(final byte[] array) {
         final Vector vector = new Vector(2);
         final int mmi_O_TRAIN = MMIVariables.MMI_O_TRAIN(array[0], array[1], array[2], array[3]);
-        final int mmi_V_TRAIN = MMIVariables.MMI_V_TRAIN(array[6], array[7]);
+        // Speed is 4 bytes (array[4]-array[7]) according to ATPRU-LOGF-001 v1.8 spec
+        final int mmi_V_TRAIN = com.MiTAC.TRA.ATP.Tools.Byte2Number.getSigned(array[4], array[5], array[6], array[7]);
         vector.add(new Integer(mmi_O_TRAIN));
         vector.add(new Integer(mmi_V_TRAIN));
         return vector;

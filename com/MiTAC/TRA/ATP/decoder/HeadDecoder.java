@@ -25,7 +25,8 @@ public class HeadDecoder
         this.ts = this.getTime(tsb[1], tsb[2], tsb[3], tsb[4], tsb[5], tsb[6]);
         this.location = new Integer(this.mmivariables.MMI_O_TRAIN(tsb[7], tsb[8], tsb[9], tsb[10]));
         this.location = ((this.location >= 1000000000) ? (this.location - 1000000000) : this.location);
-        this.speed = new Integer(this.mmivariables.MMI_V_TRAIN(tsb[13], tsb[14]));
+        // Speed Stamp is 4 bytes (bytes 11-14) according to ATPRU-LOGF-001 v1.8 spec
+        this.speed = Byte2Number.getSigned(tsb[11], tsb[12], tsb[13], tsb[14]);
     }
     
     public Vector getData() {

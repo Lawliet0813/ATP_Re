@@ -129,7 +129,8 @@ public class RU {
   public Vector T_ATP_DOWN_DIS_SPEED_TIME(byte[] data) {
     Vector rtn = new Vector(2);
     int loc = this.mmivairalbes.MMI_O_TRAIN(data[0], data[1], data[2], data[3]);
-    int spd = this.mmivairalbes.MMI_V_TRAIN(data[6], data[7]);
+    // Speed is 4 bytes (data[4]-data[7]) according to ATPRU-LOGF-001 v1.8 spec
+    int spd = com.MiTAC.TRA.ATP.Tools.Byte2Number.getSigned(data[4], data[5], data[6], data[7]);
     rtn.add(new Integer(spd));
     rtn.add(new Integer(loc));
     return rtn;
