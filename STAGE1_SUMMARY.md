@@ -73,7 +73,10 @@
 | mmi_decoder | 13 | 100% | 所有欄位/位元標誌 |
 | btm_decoder | 11 | 100% | 順序/亂序/並行 |
 | ru_decoder | 11 | 100% | 多種封包類型 |
-| **總計** | **57** | **100%** | **完整** |
+| **解碼器總計** | **57** | **100%** | **完整** |
+| **專案總計** | **98** | **100%** | **含既有測試** |
+
+註：98個測試包含57個新增的解碼器測試，以及41個既有的資料模型測試
 
 ### 3. 驗證機制
 
@@ -155,7 +158,7 @@
 
 ## 檔案清單
 
-### 6. 新增檔案 (16個)
+### 6. 新增檔案 (17個)
 
 **解碼器模組 (6個):**
 ```
@@ -179,19 +182,20 @@ tests/unit/decoders/
 └── test_ru_decoder.py           (9,559 bytes)
 ```
 
-**驗證與文件 (4個):**
+**驗證與文件 (5個):**
 ```
 tests/
-├── test_data_generator.py   (5,573 bytes)
-└── validate_decoders.py     (6,449 bytes)
+├── test_data_generator.py        (5,573 bytes)
+└── validate_decoders.py          (6,449 bytes)
 
-docs/
-├── DECODER_VALIDATION.md    (4,917 bytes)
+./
+├── DECODER_VALIDATION.md         (4,917 bytes)
+├── STAGE1_SUMMARY.md             (4,368 bytes)
 └── src/atp_re/decoders/README.md (10,445 bytes)
 ```
 
 **總計:**
-- 16個新檔案
+- 17個新檔案
 - 3,200+ 行程式碼
 - 1,500+ 行文件
 
