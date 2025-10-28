@@ -49,7 +49,13 @@ ENVIRONMENT=development
 
 ```bash
 cd api
+# Development mode
 python main.py
+
+# Production mode (recommended)
+uvicorn api.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+# Or use the systemd service (see production deployment)
 ```
 
 ### 5. Access Features
@@ -236,11 +242,16 @@ sudo crontab -e
 # Find latest backup
 ls -lt /var/lib/atpre/backups/
 
-# Restore
+# Stop services
 sudo systemctl stop atpre-api
-PGPASSWORD="password" pg_restore \
-  -h localhost -U atp_user -d atp_re --clean \
+
+# Restore using .pgpass for security (recommended)
+# Create ~/.pgpass file with: localhost:5432:atp_re:atp_user:password
+# chmod 600 ~/.pgpass
+pg_restore -h localhost -U atp_user -d atp_re --clean \
   /var/lib/atpre/backups/backup_YYYYMMDD_HHMMSS/database.backup
+
+# Start services
 sudo systemctl start atpre-api
 ```
 
@@ -263,7 +274,9 @@ CACHE_TTL=3600
 workers = CPU_cores
 
 # For I/O-bound tasks  
-workers = CPU_cores * 2-4
+# Use 2x to 4x the number of CPU cores
+workers = CPU_cores * 2  # Conservative
+workers = CPU_cores * 4  # Aggressive
 ```
 
 ### 3. Optimize Database
@@ -392,8 +405,8 @@ logger.info("test_event", key="value")
 
 ## Support
 
-- **Documentation:** See guides in repository
-- **Issues:** https://github.com/Lawliet0813/ATP_Re/issues
+- **Documentation:** See guides in this repository
+- **Issues:** Create issues in your repository's issue tracker
 - **Logs:** Check `/var/log/atpre/` for detailed logs
 
 ## Summary of Changes
