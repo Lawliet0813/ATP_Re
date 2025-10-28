@@ -26,6 +26,15 @@ class PacketHeader:
     timestamp: datetime
     location: int
     speed: int
+    
+    def to_dict(self):
+        """Convert to dictionary for display."""
+        return {
+            "packet_no": self.packet_no,
+            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
+            "location": self.location,
+            "speed": self.speed,
+        }
 
 
 class PacketHeaderParser:

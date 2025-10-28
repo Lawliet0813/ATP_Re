@@ -35,7 +35,58 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# Field descriptions for decoded packet data
+FIELD_DESCRIPTIONS = {
+    # Packet Header Fields
+    "packet_no": "Packet Number/Type",
+    "timestamp": "Recording Timestamp",
+    "location": "Train Location (meters)",
+    "speed": "Train Speed (km/h)",
+    
+    # MMI_DYNAMIC Fields
+    "v_train": "Train Speed (km/h)",
+    "a_train": "Train Acceleration (cm/s²)",
+    "o_train": "Train Position (meters)",
+    "o_brake_target": "Brake Target Position (meters)",
+    "v_target": "Target Speed (km/h)",
+    "t_interven_war": "Intervention Warning Time (seconds)",
+    "v_permitted": "Permitted Speed (km/h)",
+    "v_release": "Release Speed (km/h)",
+    "v_intervention": "Intervention Speed (km/h)",
+    "m_warning": "Warning Mode (0-15)",
+    "m_slip": "Slip Indication (0-1)",
+    "m_slide": "Slide Indication (0-1)",
+    "o_bcsp": "BCSP Position (meters)",
+    
+    # MMI_STATUS Fields
+    "m_adhesion": "Adhesion Mode",
+    "m_mode": "Operating Mode",
+    "m_level": "ATP Level",
+    "m_emer_brake": "Emergency Brake Status",
+    "m_service_brake": "Service Brake Status",
+    "m_override_eoa": "Override EOA Status",
+    "m_trip": "Trip Status",
+    "m_active_cabin": "Active Cabin Identifier",
+    
+    # BTM Fields
+    "sequence_number": "Telegram Sequence Number",
+    "telegram_number": "Fragment Number (1-5)",
+    "data_length": "Data Length (bytes)",
+    "data_hex": "Raw Data (hexadecimal)",
+    "nid_bg": "Balise Group Identifier",
+    "m_count": "Message Count",
+    
+    # Other Fields
+    "button": "Button Value",
+    "status": "Status Value",
+}
+
 # Helper functions
+def get_field_description(field_name):
+    """Get human-readable description for a field name"""
+    return FIELD_DESCRIPTIONS.get(field_name, field_name.replace("_", " ").title())
+
+
 def get_tasks():
     """Fetch all tasks from API"""
     try:
@@ -329,6 +380,66 @@ def show_data_analysis():
             # Data table
             st.subheader("Data Table")
             st.dataframe(df, use_container_width=True)
+            
+            # Detailed decoded data view
+            st.subheader("📦 Decoded Packet Details")
+            st.info("Select a row to view detailed decoded packet values")
+            
+            # Add a row selector
+            if len(df) > 0:
+                row_index = st.number_input(
+                    "Select row to view details (0-based index):",
+                    min_value=0,
+                    max_value=len(df)-1,
+                    value=0,
+                    step=1
+                )
+                
+                # Get the selected row
+                selected_row = df.iloc[row_index]
+                
+                # Display decoded data if available
+                if 'decoded_data' in selected_row and selected_row['decoded_data']:
+                    try:
+                        # Parse JSON if it's a string
+                        if isinstance(selected_row['decoded_data'], str):
+                            decoded = json.loads(selected_row['decoded_data'])
+                        else:
+                            decoded = selected_row['decoded_data']
+                        
+                        # Display in expandable sections
+                        with st.expander("📋 Packet Header", expanded=True):
+                            if 'header' in decoded:
+                                header_df = pd.DataFrame([decoded['header']])
+                                st.dataframe(header_df, use_container_width=True)
+                            else:
+                                st.write("No header information available")
+                        
+                        with st.expander("🔍 Decoded Values", expanded=True):
+                            if 'data' in decoded and decoded['data']:
+                                # Display as formatted table
+                                data_items = []
+                                for key, value in decoded['data'].items():
+                                    data_items.append({
+                                        'Field': key,
+                                        'Value': value,
+                                        'Description': get_field_description(key)
+                                    })
+                                data_df = pd.DataFrame(data_items)
+                                st.dataframe(data_df, use_container_width=True)
+                            else:
+                                st.write("No decoded data available")
+                        
+                        with st.expander("📄 Raw JSON", expanded=False):
+                            st.json(decoded)
+                            
+                    except json.JSONDecodeError:
+                        st.error("Unable to parse decoded data")
+                    except Exception as e:
+                        st.error(f"Error displaying decoded data: {str(e)}")
+                else:
+                    st.warning("No decoded data available for this row")
+
 
 
 def show_event_monitoring():
