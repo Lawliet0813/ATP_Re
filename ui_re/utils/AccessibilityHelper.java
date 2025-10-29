@@ -242,6 +242,9 @@ public class AccessibilityHelper {
     /**
      * Announces a message to screen readers
      * 
+     * Note: This is a simple implementation. For production use in high-frequency scenarios,
+     * consider implementing a proper announcement queue to avoid memory leaks.
+     * 
      * @param component The component to announce from
      * @param message The message to announce
      */
@@ -254,7 +257,8 @@ public class AccessibilityHelper {
             // Set announcement
             context.setAccessibleDescription(message);
             
-            // Restore after a delay (this is a workaround for screen reader announcement)
+            // Restore after a delay (simple implementation for demonstration)
+            // For production use with high frequency calls, implement a proper queue
             Timer timer = new Timer(1000, e -> {
                 if (currentDesc != null) {
                     context.setAccessibleDescription(currentDesc);

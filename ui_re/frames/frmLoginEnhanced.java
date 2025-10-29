@@ -13,13 +13,18 @@ import java.awt.event.KeyEvent;
 /**
  * Enhanced Login Form with improved UI/UX
  * 
- * This is a demonstration of the new UI/UX guidelines applied to the login form.
- * Features include:
+ * DEMONSTRATION CLASS - This is an example implementation showing how to use
+ * the UI/UX utilities. It is NOT intended for production use.
+ * 
+ * This class demonstrates:
  * - Consistent color palette from UITheme
  * - Keyboard navigation with mnemonics
  * - Accessibility support for screen readers
  * - Clear focus indicators
- * - WCAG 2.1 AA compliant
+ * - WCAG 2.1 AA compliant design
+ * 
+ * For production use, integrate these patterns into the existing frmLogin.java
+ * instead of using this demonstration class.
  * 
  * @version 1.0
  * @date 2025-10-29
@@ -291,6 +296,14 @@ public class frmLoginEnhanced extends JFrame {
     
     /**
      * Perform login validation
+     * 
+     * DEMONSTRATION ONLY - This is placeholder logic for demonstration purposes.
+     * In production, this should:
+     * 1. Validate credentials against the database using ConnectDB
+     * 2. Call CheckUser to verify permissions
+     * 3. Create CreatMWSystemLog entry for the login
+     * 4. Open frmMain window on success
+     * 5. Close this login window
      */
     private void performLogin() {
         String username = usernameField.getText().trim();
@@ -314,14 +327,19 @@ public class frmLoginEnhanced extends JFrame {
             return;
         }
         
-        // TODO: Implement actual login logic here
-        // For demonstration, show success
+        // DEMONSTRATION ONLY - Shows success message
+        // For production: Implement actual authentication logic here
         showSuccess("Login successful!");
         
-        // In real implementation, you would:
-        // 1. Validate credentials against database
-        // 2. Open main application window
-        // 3. Close login window
+        // In production implementation:
+        // 1. ConnectDB connDB = new ConnectDB();
+        // 2. Validate credentials
+        // 3. CheckUser checkUser = new CheckUser();
+        // 4. Verify permissions
+        // 5. new CreatMWSystemLog(username, "管理電腦", "使用者", "登入", null);
+        // 6. frmMain mainFrame = new frmMain(userData);
+        // 7. mainFrame.setVisible(true);
+        // 8. this.dispose();
     }
     
     /**
