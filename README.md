@@ -235,11 +235,11 @@ print(f"Mission created with ID: {mission_id}")
 ```bash
 $ pytest tests/ -v
 
-✅ 128 unit tests passed (100% pass rate)
-✅ 17 integration tests passed
+✅ 113 unit tests passed (100% pass rate)
+✅ 15 integration tests passed
 ⏭️ 10 database tests skipped (optional, require PostgreSQL)
 
-Total: 145 tests | Pass: 128 | Skip: 10 | Fail: 0
+Total: 138 tests | Executed: 128 | Passed: 128 | Skipped: 10 | Failed: 0
 Coverage: 85%+
 ```
 

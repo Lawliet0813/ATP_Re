@@ -180,25 +180,25 @@ Redis 5.0+ (用於效能優化)
 ```bash
 $ pytest tests/unit/ -v
 
-結果: ✅ 128 個測試通過，0 個失敗
+結果: ✅ 113 個測試通過，0 個失敗
 覆蓋率: 85%+
-執行時間: 7.46 秒
+執行時間: ~0.12 秒
 ```
 
 **測試項目**:
 - ✅ 資料模型驗證 (41 tests)
-- ✅ 解碼器功能 (87 tests)
+- ✅ 解碼器功能 (72 tests)
   - BTM 解碼器: 11 tests
   - RU 解碼器: 11 tests
   - MMI 解碼器: 15 tests
   - 封包格式化: 15 tests
-  - 工具函數: 12 tests
+  - 其他: 20 tests
 
 #### 整合測試 (Integration Tests)
 ```bash
 $ pytest tests/integration/ -v
 
-結果: ✅ 17 個測試通過，10 個跳過 (需要資料庫)
+結果: ✅ 15 個測試通過，10 個跳過 (需要資料庫)
 ```
 
 **測試項目**:

@@ -95,25 +95,25 @@ REST API endpoints implemented:
 ```bash
 $ pytest tests/unit/ -v
 
-Result: ✅ 128 tests passed, 0 failed
+Result: ✅ 113 tests passed, 0 failed
 Coverage: 85%+
-Execution time: 7.46 seconds
+Execution time: ~0.12 seconds
 ```
 
 **Test Categories**:
 - ✅ Data model validation (41 tests)
-- ✅ Decoder functionality (87 tests)
+- ✅ Decoder functionality (72 tests)
   - BTM decoder: 11 tests
   - RU decoder: 11 tests
   - MMI decoder: 15 tests
   - Packet formatter: 15 tests
-  - Utilities: 12 tests
+  - Others: 20 tests
 
 #### Integration Tests
 ```bash
 $ pytest tests/integration/ -v
 
-Result: ✅ 17 tests passed, 10 skipped (require database)
+Result: ✅ 15 tests passed, 10 skipped (require database)
 ```
 
 **Test Categories**:

@@ -30,9 +30,9 @@ This document provides visual status indicators for the ATP_Re project.
 
 | Test Type | Count | Pass | Skip | Fail |
 |-----------|-------|------|------|------|
-| Unit Tests | 128 | 128 | 0 | 0 |
-| Integration Tests | 17 | 17 | 10* | 0 |
-| **Total** | **145** | **145** | **10** | **0** |
+| Unit Tests | 113 | 113 | 0 | 0 |
+| Integration Tests | 25 | 15 | 10* | 0 |
+| **Total** | **138** | **128** | **10** | **0** |
 
 \* Database tests require PostgreSQL to run
 
