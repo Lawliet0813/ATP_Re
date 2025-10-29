@@ -127,7 +127,8 @@ public class RU {
   public static Vector T_ATP_DOWN_DIS_SPEED_TIME(byte[] paramArrayOfbyte) {
     Vector vector = new Vector(2);
     int i = MMIVariables.MMI_O_TRAIN(paramArrayOfbyte[0], paramArrayOfbyte[1], paramArrayOfbyte[2], paramArrayOfbyte[3]);
-    int j = MMIVariables.MMI_V_TRAIN(paramArrayOfbyte[6], paramArrayOfbyte[7]);
+    // Speed is 4 bytes (paramArrayOfbyte[4]-paramArrayOfbyte[7]) according to ATPRU-LOGF-001 v1.8 spec
+    int j = com.MiTAC.TRA.ATP.Tools.Byte2Number.getSigned(paramArrayOfbyte[4], paramArrayOfbyte[5], paramArrayOfbyte[6], paramArrayOfbyte[7]);
     vector.add(new Integer(i));
     vector.add(new Integer(j));
     return vector;

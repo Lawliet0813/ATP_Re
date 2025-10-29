@@ -307,7 +307,8 @@ public class RUDecoder
             case 201: {
                 this.description = "ATP DOWN: ";
                 final int location = this.mmivariables.MMI_O_TRAIN(this.body[0], this.body[1], this.body[2], this.body[3]);
-                final int speed = this.mmivariables.MMI_V_TRAIN(this.body[6], this.body[7]);
+                // Speed is 4 bytes (body[4]-body[7]) according to ATPRU-LOGF-001 v1.8 spec
+                final int speed = Byte2Number.getSigned(this.body[4], this.body[5], this.body[6], this.body[7]);
                 rtn.add((Object)new Integer(speed));
                 rtn.add((Object)new Integer(location));
                 rtn.add((Object)this.description);
