@@ -255,6 +255,20 @@ pytest tests/ -v
 pytest tests/ --cov=atp_re --cov-report=html
 ```
 
+### Quick Verification
+Run the verification script to check project health:
+```bash
+python verify_project_status.py
+```
+
+This will check:
+- ✅ Python version compatibility
+- ✅ Package installation
+- ✅ Test suite execution
+- ✅ Decoder functionality
+- ✅ Documentation completeness
+- ✅ Test files availability
+
 See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed testing information.
 
 ## What's Ready to Use
