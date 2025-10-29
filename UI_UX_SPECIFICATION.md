@@ -463,8 +463,8 @@ InteractiveChartComponent
 --status-info: #3b82f6;          /* 資訊 */
 
 /* 圖表色 */
---chart-1: #00ff00;              /* 速度 */
---chart-2: #ffff00;              /* 目標速度 */
+--chart-1: var(--speed-curve-1); /* 速度 */
+--chart-2: var(--speed-curve-2); /* 目標速度 */
 --chart-3: #ff6600;              /* 煞車 */
 --chart-4: #ff0000;              /* 超速 */
 --chart-5: #ff00ff;              /* 故障 */
