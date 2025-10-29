@@ -231,10 +231,15 @@ class RUDecoder:
             
             if telegram is not None:
                 # Successfully reassembled complete telegram
+                # Convert telegram to dict for JSON serialization.
+                # BTMTelegram is a dataclass that needs explicit conversion
+                # to avoid "Object of type BTMTelegram is not JSON serializable" error
+                # when using json.dumps() in packet formatter.
+                telegram_dict = telegram.to_dict()
                 return description, {
                     "sequence_number": telegram.sequence_number,
                     "telegram_size": len(telegram.data),
-                    "telegram": telegram
+                    "telegram": telegram_dict
                 }
             else:
                 # Fragment received but reassembly not complete yet
