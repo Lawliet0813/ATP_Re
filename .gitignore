@@ -1,0 +1,20 @@
+# Test directories
+test_data/
+test_results/
+
+# Build artifacts
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*~
