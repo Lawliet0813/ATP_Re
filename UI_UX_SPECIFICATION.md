@@ -226,7 +226,7 @@ InteractiveChartComponent
 :root {
   /* 主要曲線 */
   --speed-curve: #00ff00;        /* 實際速度: 綠色 */
-  --target-speed: #ffff00;       /* 目標速度: 黃色 */
+  --target-speed: #ffd700;       /* 目標速度: 黃色 (WCAG AA compliant) */
   
   /* 事件標記 */
   --event-brake: #ff6600;        /* 煞車: 橙色 */
