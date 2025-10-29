@@ -44,9 +44,14 @@ To add RU log files for testing:
    ```
 
 2. Place your RU log files in the `test_data` directory. Supported file extensions:
-   - `.ru` - RU log files
-   - `.log` - Log files
-   - `.dat` - Data files
+   - `.ru` - RU log files (Recording Unit binary log files)
+   - `.log` - Log files (text or binary format)
+   - `.dat` - Data files (raw data format)
+
+   **File Format**: The test script expects RU log files following the ATPRU-LOGF-001 RU Log File Data Format specification (version 1.8). These files contain ATP (Automatic Train Protection) system recordings including:
+   - RU record headers with timestamps, location stamps, and speed stamps
+   - Data records for ATP/MMI, VDX, BTM telegrams, and other system data
+   - See `RU_DECODER_UPDATE_NOTES.md` for detailed format specifications
 
 3. Run the test script:
    ```bash
