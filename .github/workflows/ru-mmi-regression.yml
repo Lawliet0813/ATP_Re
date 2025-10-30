@@ -1,0 +1,37 @@
+name: RU/MMI Regression Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  ru-mmi-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: (Optional) Build binary or pull docker image
+        run: |
+          # 如果你需要 build，請在這裡加上 build 命令，例如:
+          # make build
+          echo "Add build or docker pull steps if needed"
+
+      - name: Run RU/MMI batch tests
+        env:
+          # 在此設定你的 PROCESS_CMD，如果使用 docker，請把命令填完整
+          PROCESS_CMD: "./bin/atp_re process"
+          TOLERANCE: "0.01"
+        run: |
+          chmod +x ./test_batch.sh || true
+          ./test_batch.sh
